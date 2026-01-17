@@ -1,4 +1,4 @@
-package net._2237yh.adachireiNui.block;
+package dev._0yh.adachireiNui.block;
 
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;

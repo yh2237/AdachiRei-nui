@@ -1,6 +1,6 @@
-package net._2237yh.adachireiNui.client;
+package dev._0yh.adachireiNui.client;
 
-import net._2237yh.adachireiNui.AdachireiNui;
+import dev._0yh.adachireiNui.AdachireiNui;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.render.RenderLayer;

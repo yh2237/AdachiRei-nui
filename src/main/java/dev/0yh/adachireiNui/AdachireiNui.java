@@ -1,6 +1,6 @@
-package net._2237yh.adachireiNui;
+package dev._0yh.adachireiNui;
 
-import net._2237yh.adachireiNui.block.AdachireiNuiBlock;
+import dev._0yh.adachireiNui.block.AdachireiNuiBlock;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;

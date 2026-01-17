@@ -6,22 +6,22 @@
   "description": "足立レイのぬいぐるみを追加する",
   "authors": ["yh"],
   "contact": {
-    "homepage": "https://github.com/yh2237/AdachiRei-nuiMOD",
-    "sources": "https://github.com/yh2237/AdachiRei-nuiMOD",
-    "issues": "https://github.com/yh2237/AdachiRei-nuiMOD/issues"
+    "homepage": "https://github.com/yh2237/AdachiRei-nui",
+    "sources": "https://github.com/yh2237/AdachiRei-nui",
+    "issues": "https://github.com/yh2237/AdachiRei-nui/issues"
   },
   "license": "MIT",
   "icon": "assets/adachirei-nui/icon.png",
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
-      "net._2237yh.adachireiNui.client.AdachireiNuiDataGenerator"
+      "dev._0yh.adachireiNui.client.AdachireiNuiDataGenerator"
     ],
     "client": [
-      "net._2237yh.adachireiNui.client.AdachireiNuiClient"
+      "dev._0yh.adachireiNui.client.AdachireiNuiClient"
     ],
     "main": [
-      "net._2237yh.adachireiNui.AdachireiNui"
+      "dev._0yh.adachireiNui.AdachireiNui"
     ]
   },
   "mixins": [
