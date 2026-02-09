@@ -26,6 +26,8 @@
 /item replace entity @p armor.head with adachirei-nui:adachi-nui_vocaloid
 ```
 
+![demo2](../assets/demo2.png)
+
 ---
 
 ### スプラッシュメッセージについて
