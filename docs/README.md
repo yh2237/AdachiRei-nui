@@ -6,6 +6,8 @@
 - MinecraftVersion： **1.21.6~1.21.10**
 - 前提Mod： **FabricAPI**
 
+    1.21.11 でも起動しますが若干不安定なのとスプラッシュメッセージの表示が正常に出来ません。
+
 ---
 
 - [Download Latest](https://github.com/yh2237/AdachiRei-nui/releases/latest)
