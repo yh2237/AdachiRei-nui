@@ -2,7 +2,7 @@
 
 ### 対応環境
 
-- ModLoader： **FabricLoader0.16.0** 以上
+- ModLoader： **FabricLoader 0.16.0** 以上
 - MinecraftVersion： **1.21.6~1.21.10**
 - 前提Mod： **FabricAPI**
 
@@ -12,7 +12,7 @@
 
 ---
 
-<img src="https://github.com/user-attachments/assets/941529e5-2c17-4cce-9e98-7fe34b70b9b1">
+[demo](./assets/demo.png)
 
 以下のコマンドで頭の上に乗せれます
 
