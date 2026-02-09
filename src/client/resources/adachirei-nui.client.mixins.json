@@ -1,9 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev._0yh.adatireiNui.mixin.client",
+  "package": "dev._0yh.adachireiNui.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "SplashTextMixin"
   ],
   "injectors": {
     "defaultRequire": 1

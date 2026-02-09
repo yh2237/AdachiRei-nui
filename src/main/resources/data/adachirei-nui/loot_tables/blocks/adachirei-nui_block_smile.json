@@ -8,6 +8,11 @@
           "type": "minecraft:item",
           "name": "adachirei-nui:adachirei-nui_block_smile"
         }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]

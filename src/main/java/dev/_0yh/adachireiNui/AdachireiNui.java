@@ -2,55 +2,81 @@ package dev._0yh.adachireiNui;
 
 import dev._0yh.adachireiNui.block.AdachireiNuiBlock;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemGroups;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 
 public class AdachireiNui implements ModInitializer {
-    public static final String MOD_ID = "adachirei-nui";
+        public static final String MOD_ID = "adachirei-nui";
 
-    public static final VoxelShape ADACHI_SHAPE = VoxelShapes.cuboid(0.1, 0, 0.1, 0.9, 0.9, 0.9);
-    public static final Block ADACHI_BLOCK = new AdachireiNuiBlock(ADACHI_SHAPE);
-    public static final Identifier BLOCK_ID = new Identifier(MOD_ID, "adachirei-nui_block");
+        public static final Identifier BLOCK_ID = Identifier.of(MOD_ID, "adachirei-nui_block");
+        public static final Identifier BLOCK_ID_2 = Identifier.of(MOD_ID, "adachirei-nui_block_smile");
+        public static final Identifier BLOCK_ID_3 = Identifier.of(MOD_ID, "adachirei-nui_block_newmodel");
+        public static final Identifier BLOCK_ID_4 = Identifier.of(MOD_ID, "adachirei-nui_box");
+        public static final Identifier BLOCK_ID_5 = Identifier.of(MOD_ID, "adachi-nui");
+        public static final Identifier BLOCK_ID_6 = Identifier.of(MOD_ID, "adachi-nui_new");
+        public static final Identifier BLOCK_ID_7 = Identifier.of(MOD_ID, "adachi-nui_vocaloid");
 
-    public static final VoxelShape ADACHI_SHAPE_2 = VoxelShapes.cuboid(0.1, 0, 0.1, 0.9, 0.9, 0.9);
-    public static final Block ADACHI_BLOCK_2 = new AdachireiNuiBlock(ADACHI_SHAPE_2);
-    public static final Identifier BLOCK_ID_2 = new Identifier(MOD_ID, "adachirei-nui_block_smile");
+        public static final Identifier ITEM_GROUP_ID = Identifier.of(MOD_ID, "item_group");
 
-    public static final VoxelShape ADACHI_SHAPE_3 = VoxelShapes.cuboid(0.1, 0, 0.1, 0.9, 0.9, 0.9);
-    public static final Block ADACHI_BLOCK_3 = new AdachireiNuiBlock(ADACHI_SHAPE_3);
-    public static final Identifier BLOCK_ID_3 = new Identifier(MOD_ID, "adachirei-nui_block_newmodel");
+        public static Block ADACHI_BLOCK;
+        public static Block ADACHI_BLOCK_2;
+        public static Block ADACHI_BLOCK_3;
+        public static Block ADACHI_BLOCK_4;
+        public static Block ADACHI_BLOCK_5;
+        public static Block ADACHI_BLOCK_6;
+        public static Block ADACHI_BLOCK_7;
 
-    public static final VoxelShape ADACHI_SHAPE_4 = VoxelShapes.fullCube();
-    public static final Block ADACHI_BLOCK_4 = new AdachireiNuiBlock(ADACHI_SHAPE_4);
-    public static final Identifier BLOCK_ID_4 = new Identifier(MOD_ID, "adachirei-nui_box");
+        @Override
+        public void onInitialize() {
+                ADACHI_BLOCK = registerBlock(BLOCK_ID, VoxelShapes.cuboid(0.1, 0, 0.1, 0.9, 0.9, 0.9));
+                ADACHI_BLOCK_2 = registerBlock(BLOCK_ID_2, VoxelShapes.cuboid(0.1, 0, 0.1, 0.9, 0.9, 0.9));
+                ADACHI_BLOCK_3 = registerBlock(BLOCK_ID_3, VoxelShapes.cuboid(0.1, 0, 0.1, 0.9, 0.9, 0.9));
+                ADACHI_BLOCK_4 = registerBlock(BLOCK_ID_4, VoxelShapes.fullCube());
+                ADACHI_BLOCK_5 = registerBlock(BLOCK_ID_5, VoxelShapes.cuboid(0.2, 0, 0.2, 0.8, 0.9, 0.9));
+                ADACHI_BLOCK_6 = registerBlock(BLOCK_ID_6, VoxelShapes.cuboid(0.2, 0, 0.2, 0.8, 0.9, 0.9));
+                ADACHI_BLOCK_7 = registerBlock(BLOCK_ID_7, VoxelShapes.cuboid(0.2, 0, 0.2, 0.8, 0.9, 0.9));
 
-    @Override
-    public void onInitialize() {
-        Registry.register(Registries.BLOCK, BLOCK_ID, ADACHI_BLOCK);
-        Registry.register(Registries.ITEM, BLOCK_ID, new BlockItem(ADACHI_BLOCK, new FabricItemSettings()));
+                Registry.register(Registries.ITEM_GROUP, RegistryKey.of(RegistryKeys.ITEM_GROUP, ITEM_GROUP_ID),
+                                FabricItemGroup.builder()
+                                                .displayName(Text.translatable("itemGroup." + MOD_ID))
+                                                .icon(() -> new ItemStack(ADACHI_BLOCK))
+                                                .entries((context, entries) -> {
+                                                        entries.add(ADACHI_BLOCK);
+                                                        entries.add(ADACHI_BLOCK_2);
+                                                        entries.add(ADACHI_BLOCK_3);
+                                                        entries.add(ADACHI_BLOCK_4);
+                                                        entries.add(ADACHI_BLOCK_5);
+                                                        entries.add(ADACHI_BLOCK_6);
+                                                        entries.add(ADACHI_BLOCK_7);
+                                                })
+                                                .build());
+        }
 
-        Registry.register(Registries.BLOCK, BLOCK_ID_2, ADACHI_BLOCK_2);
-        Registry.register(Registries.ITEM, BLOCK_ID_2, new BlockItem(ADACHI_BLOCK_2, new FabricItemSettings()));
+        private static Block registerBlock(Identifier id, VoxelShape shape) {
+                Block block = Registry.register(
+                                Registries.BLOCK,
+                                id,
+                                new AdachireiNuiBlock(shape, id));
 
-        Registry.register(Registries.BLOCK, BLOCK_ID_3, ADACHI_BLOCK_3);
-        Registry.register(Registries.ITEM, BLOCK_ID_3, new BlockItem(ADACHI_BLOCK_3, new FabricItemSettings()));
+                Registry.register(
+                                Registries.ITEM,
+                                id,
+                                new BlockItem(block, new Item.Settings()
+                                                .registryKey(RegistryKey.of(RegistryKeys.ITEM, id))
+                                                .useBlockPrefixedTranslationKey()));
 
-        Registry.register(Registries.BLOCK, BLOCK_ID_4, ADACHI_BLOCK_4);
-        Registry.register(Registries.ITEM, BLOCK_ID_4, new BlockItem(ADACHI_BLOCK_4, new FabricItemSettings()));
-
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
-            entries.add(ADACHI_BLOCK);
-            entries.add(ADACHI_BLOCK_2);
-            entries.add(ADACHI_BLOCK_3);
-            entries.add(ADACHI_BLOCK_4);
-        });
-    }
+                return block;
+        }
 }

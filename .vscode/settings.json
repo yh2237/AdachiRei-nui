@@ -1,0 +1,6 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.gradle.enabled": true,
+  "java.import.maven.enabled": false,
+  "java.import.gradle.wrapper.enabled": true
+}

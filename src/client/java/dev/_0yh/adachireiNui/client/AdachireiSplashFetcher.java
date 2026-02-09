@@ -1,0 +1,73 @@
+package dev._0yh.adachireiNui.client;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
+
+public class AdachireiSplashFetcher {
+    private static final Logger LOGGER = LoggerFactory.getLogger("adachirei-nui");
+    private static final String API_URL = "https://adachi.2237yh.net/api/posts/random";
+    private static final Duration TIMEOUT = Duration.ofSeconds(5);
+
+    private static final AtomicReference<CompletableFuture<String>> pendingFetch = new AtomicReference<>(null);
+    private static final AtomicReference<String> cachedSplash = new AtomicReference<>(null);
+
+    public static void fetchAsync() {
+        if (cachedSplash.get() != null)
+            return;
+
+        CompletableFuture<String> future = new CompletableFuture<>();
+        if (!pendingFetch.compareAndSet(null, future)) {
+            return;
+        }
+
+        CompletableFuture.runAsync(() -> {
+            HttpClient client = HttpClient.newBuilder()
+                    .connectTimeout(TIMEOUT)
+                    .build();
+            try {
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(API_URL))
+                        .timeout(TIMEOUT)
+                        .GET()
+                        .build();
+
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() == 200) {
+                    JsonObject json = JsonParser.parseString(response.body()).getAsJsonObject();
+                    if (json.has("text")) {
+                        String text = json.get("text").getAsString();
+                        if (text != null && !text.isBlank()) {
+                            cachedSplash.set(text);
+                            future.complete(text);
+                            return;
+                        }
+                    }
+                }
+                LOGGER.warn("Unexpected API response: status={}", response.statusCode());
+                future.complete(null);
+            } catch (Exception e) {
+                LOGGER.warn("Failed to fetch splash from API: {}", e.getMessage());
+                future.complete(null);
+            } finally {
+                client.close();
+            }
+        });
+    }
+
+    public static String consumeCachedSplash() {
+        String text = cachedSplash.getAndSet(null);
+        pendingFetch.set(null);
+        return text;
+    }
+}

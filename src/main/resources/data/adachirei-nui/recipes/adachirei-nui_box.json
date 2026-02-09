@@ -6,15 +6,11 @@
     "HHH"
   ],
   "key": {
-    "A": {
-      "item": "adachirei-nui:adachirei-nui_block"
-    },
-    "H": {
-      "item": "minecraft:white_wool"
-    }
+    "A": "adachirei-nui:adachirei-nui_block",
+    "H": "minecraft:white_wool"
   },
   "result": {
-    "item": "adachirei-nui:adachirei-nui_box",
+    "id": "adachirei-nui:adachirei-nui_box",
     "count": 8
   }
 }
