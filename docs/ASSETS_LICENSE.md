@@ -5,7 +5,7 @@
 ---
 
 ### 🔹 Original Work
-This mod includes textures and models inspired by the character from **足立レイ**.  
+This mod includes textures and models inspired by the character from **足立レイ**.
 
 These assets were created following the [official guideline](https://mechanicalgirl.jp/guidelines/):
 
@@ -16,7 +16,7 @@ This project also contains assets based on a secondary derivative character crea
 
 - [@Molmax0710](https://x.com/Molmax0710) - **新型レイ**
 
-The original derivative creator retains rights to their original character design.  
+The original derivative creator retains rights to their original character design.
 
 ---
 
