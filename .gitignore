@@ -1,6 +1,14 @@
 .DS_Store
 .gradle/
-.idea/
-out/
 build/
+out/
+.idea/
+.classpath
+.factorypath
+.project
+.settings/
 bin/
+run/
+nul
+AdachiRei-nui_client.launch
+AdachiRei-nui_server.launch
