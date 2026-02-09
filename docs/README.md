@@ -12,7 +12,7 @@
 
 ---
 
-[demo](../assets/demo.png)
+![demo](../assets/demo.png)
 
 以下のコマンドで頭の上に乗せれます
 
@@ -48,6 +48,6 @@
 **[足立レイ](https://mechanicalgirl.jp/adachi-rei/)は[合同会社メカニカルガール](https://mechanicalgirl.jp/)の等身大ヒューマノイドロボットです！**
 
 - [ソースコードのライセンス(MIT)](../LICENSE)
-- [アセットのライセンス](./docs/ASSETS_LICENSE.md)
+- [アセットのライセンス](./ASSETS_LICENSE.md)
 
 ---
