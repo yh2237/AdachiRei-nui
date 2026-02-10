@@ -11,9 +11,9 @@ public class AdachireiNuiClient implements ClientModInitializer {
     public void onInitializeClient() {
         BlockRenderLayerMap.putBlocks(
                 BlockRenderLayer.CUTOUT,
-                AdachireiNui.ADACHI_BLOCK,
-                AdachireiNui.ADACHI_BLOCK_2,
-                AdachireiNui.ADACHI_BLOCK_3,
+                // AdachireiNui.ADACHI_BLOCK,
+                // AdachireiNui.ADACHI_BLOCK_2,
+                // AdachireiNui.ADACHI_BLOCK_3,
                 AdachireiNui.ADACHI_BLOCK_5,
                 AdachireiNui.ADACHI_BLOCK_6,
                 AdachireiNui.ADACHI_BLOCK_7);
