@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 @Mixin(SplashTextResourceSupplier.class)
 public class SplashTextMixin {
@@ -27,7 +28,10 @@ public class SplashTextMixin {
     private static boolean usesTextArg;
 
     @Unique
-    private static boolean ctorResolved = false;
+    private static Method createMethod;
+
+    @Unique
+    private static boolean resolved = false;
 
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)
     private void onGet(CallbackInfoReturnable<SplashTextRenderer> cir) {
@@ -44,13 +48,21 @@ public class SplashTextMixin {
     @Unique
     private static SplashTextRenderer createRenderer(String text) {
         try {
-            resolveCtor();
-            if (cachedCtor != null) {
-                if (usesTextArg) {
-                    return cachedCtor.newInstance(Text.literal(text));
-                } else {
-                    return cachedCtor.newInstance(text);
+            resolve();
+            if (cachedCtor == null)
+                return null;
+
+            if (usesTextArg) {
+                Text styledText = null;
+                if (createMethod != null) {
+                    styledText = (Text) createMethod.invoke(null, text);
                 }
+                if (styledText == null) {
+                    styledText = Text.literal(text);
+                }
+                return cachedCtor.newInstance(styledText);
+            } else {
+                return cachedCtor.newInstance(text);
             }
         } catch (Exception e) {
             LOGGER.warn("Failed to create SplashTextRenderer: {}", e.getMessage());
@@ -59,9 +71,16 @@ public class SplashTextMixin {
     }
 
     @Unique
-    private static void resolveCtor() {
-        if (ctorResolved) return;
-        ctorResolved = true;
+    private static void resolve() {
+        if (resolved)
+            return;
+        resolved = true;
+
+        try {
+            createMethod = SplashTextResourceSupplier.class.getDeclaredMethod("create", String.class);
+            createMethod.setAccessible(true);
+        } catch (NoSuchMethodException ignored) {
+        }
 
         try {
             cachedCtor = SplashTextRenderer.class.getDeclaredConstructor(Text.class);
