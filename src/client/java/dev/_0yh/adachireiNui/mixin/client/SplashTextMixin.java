@@ -4,6 +4,7 @@ import dev._0yh.adachireiNui.client.AdachireiSplashFetcher;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.resource.SplashTextResourceSupplier;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 
 @Mixin(SplashTextResourceSupplier.class)
 public class SplashTextMixin {
@@ -26,9 +26,6 @@ public class SplashTextMixin {
 
     @Unique
     private static boolean usesTextArg;
-
-    @Unique
-    private static Method createMethod;
 
     @Unique
     private static boolean resolved = false;
@@ -53,13 +50,7 @@ public class SplashTextMixin {
                 return null;
 
             if (usesTextArg) {
-                Text styledText = null;
-                if (createMethod != null) {
-                    styledText = (Text) createMethod.invoke(null, text);
-                }
-                if (styledText == null) {
-                    styledText = Text.literal(text);
-                }
+                Text styledText = Text.literal(text).formatted(Formatting.YELLOW);
                 return cachedCtor.newInstance(styledText);
             } else {
                 return cachedCtor.newInstance(text);
@@ -75,12 +66,6 @@ public class SplashTextMixin {
         if (resolved)
             return;
         resolved = true;
-
-        try {
-            createMethod = SplashTextResourceSupplier.class.getDeclaredMethod("create", String.class);
-            createMethod.setAccessible(true);
-        } catch (NoSuchMethodException ignored) {
-        }
 
         try {
             cachedCtor = SplashTextRenderer.class.getDeclaredConstructor(Text.class);
