@@ -4,7 +4,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"1": "adachirei-nui:block/adachi-nui",
-		"particle": "adachirei-nui:block/adachi-nui"
+		"particle": "adachirei-nui:block/adachi-nui_particle"
 	},
 	"elements": [
 		{
