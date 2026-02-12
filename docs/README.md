@@ -1,6 +1,6 @@
 # AdachiRei-nui
 
-｜[English](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/READNE.md)｜[Japanese](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/README_jp.md)｜
+｜[English](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/README.md)｜[Japanese](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/README_jp.md)｜
 
 ### Supported Environment
 
