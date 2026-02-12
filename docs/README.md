@@ -1,14 +1,16 @@
 # AdachiRei-nui
 
-### 対応環境
+｜[English](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/READNE.md)｜[Japanese](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/README_jp.md)｜
 
-- ModLoader： **FabricLoader 0.16.13** 以上
-- MinecraftVersion： **1.21.6~1.21.11**
-- 前提Mod： **FabricAPI**
+### Supported Environment
 
-    ~~1.21.11 でも起動しますが若干不安定なのとスプラッシュメッセージの表示が正常に出来ません。~~
+- Mod Loader: **Fabric Loader 0.16.13** or later
+- Minecraft Version: **1.21.6–1.21.11**
+- Required Mod: **Fabric API**
 
-    **v1.0.1 で修正しました。**
+    ~~Although it runs on 1.21.11, it was slightly unstable and splash messages did not display correctly.~~
+
+    **Fixed in v1.0.1.**
 
 ---
 
@@ -16,33 +18,33 @@
 
 ---
 
-![demo](../assets/demo.png)
+![demo](https://cdn.modrinth.com/data/cached_images/f0c4e8c70f6f7c5d165e7c3a501cefe6a7a0a6fb.png)
 
-以下のコマンドで頭の上に乗せれます
+Use the following command to place it on your head:
 
 ```
 /item replace entity @p armor.head with adachirei-nui:adachi-nui
-# 又は
+# or
 /item replace entity @p armor.head with adachirei-nui:adachi-nui_new
-# 又は
+# or
 /item replace entity @p armor.head with adachirei-nui:adachi-nui_vocaloid
 ```
 
-![demo2](../assets/demo2.png)
+![demo2](https://cdn.modrinth.com/data/cached_images/a28a39bfb5ad54cb0211dc7350a48c596116062c_0.webp)
 
 ---
 
-### スプラッシュメッセージについて
+### About the Splash Messages
 
-スプラッシュメッセージは [@adachirei0](https://x.com/adachirei0) のツイートをほぼすべて保存している [足立データベース](https://adachi.2237yh.net) のAPIからランダムに取得し表示しています。
+Splash messages are randomly fetched via API from the **Adachi Database**, which archives nearly all tweets by [@adachirei0](https://x.com/adachirei0).
 
-足立データベースには2026/02/09現在、37211件のツイートが保存されています。
+As of 2026/02/09, the database contains **37,211 tweets**.
 
-サーバとの通信ができない場合は通常のスプラッシュメッセージが使用されます。
+If the client cannot connect to the server, the default Minecraft splash messages will be used instead.
 
 ---
 
-### 全人類フォローするべき
+### Everyone Should Follow
 
 - [@MechanicalGirl0](https://x.com/MechanicalGirl0)
 - [@missile_39](https://x.com/missile_39)
@@ -51,11 +53,9 @@
 
 ---
 
-### ライセンス
+### License
 
-**[足立レイ](https://mechanicalgirl.jp/adachi-rei/)は[合同会社メカニカルガール](https://mechanicalgirl.jp/)の等身大ヒューマノイドロボットです！**
+**[Adachi Rei](https://mechanicalgirl.jp/adachi-rei/) is a life-sized humanoid robot developed by [Mechanical Girl LLC](https://mechanicalgirl.jp/)!**
 
-- [ソースコードのライセンス(MIT)](../LICENSE)
-- [アセットのライセンス](./ASSETS_LICENSE.md)
-
----
+- [Source Code License (MIT)](https://github.com/yh2237/AdachiRei-nui/blob/main/LICENSE)
+- [Asset License](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/ASSETS_LICENSE.md)
