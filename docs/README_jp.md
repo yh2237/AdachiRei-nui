@@ -14,7 +14,7 @@
 
 ---
 
-- [Download Latest](https://github.com/yh2237/AdachiRei-nui/releases/latest)
+- [Download](https://modrinth.com/mod/adachirei-nui)
 
 ---
 
