@@ -19,6 +19,9 @@
     ],
     "main": [
       "dev._0yh.adachireiNui.AdachireiNui"
+    ],
+    "fabric-datagen": [
+      "dev._0yh.adachireiNui.AdachireiNuiDataGenerator"
     ]
   },
   "mixins": [
