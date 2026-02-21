@@ -57,7 +57,6 @@
 
 **[足立レイ](https://mechanicalgirl.jp/adachi-rei/)は[合同会社メカニカルガール](https://mechanicalgirl.jp/)の等身大ヒューマノイドロボットです！**
 
-- [ソースコードのライセンス(MIT)](https://github.com/yh2237/AdachiRei-nui/blob/main/LICENSE)
-- [アセットのライセンス](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/ASSETS_LICENSE.md)
+- [ライセンス(MIT)](https://github.com/yh2237/AdachiRei-nui/blob/main/LICENSE)
 
 ---

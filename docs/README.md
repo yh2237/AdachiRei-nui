@@ -57,5 +57,4 @@ If the client cannot connect to the server, the default Minecraft splash message
 
 **[Adachi Rei](https://mechanicalgirl.jp/adachi-rei/) is a life-sized humanoid robot developed by [Mechanical Girl LLC](https://mechanicalgirl.jp/)!**
 
-- [Source Code License (MIT)](https://github.com/yh2237/AdachiRei-nui/blob/main/LICENSE)
-- [Asset License](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/ASSETS_LICENSE.md)
+- [License (MIT)](https://github.com/yh2237/AdachiRei-nui/blob/main/LICENSE)
