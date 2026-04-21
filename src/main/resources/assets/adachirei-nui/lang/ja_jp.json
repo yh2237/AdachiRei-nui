@@ -1,10 +1,7 @@
 {
   "itemGroup.adachirei-nui": "足立レイのぬいぐるみ",
-  "block.adachirei-nui.adachirei-nui_block": "足立レイのぬいぐるみ",
-  "block.adachirei-nui.adachirei-nui_block_smile": "足立レイのぬいぐるみ（笑顔）",
-  "block.adachirei-nui.adachirei-nui_block_newmodel": "新型レイのぬいぐるみ",
-  "block.adachirei-nui.adachirei-nui_box": "足立レイブロック",
   "block.adachirei-nui.adachi-nui": "足立レイのぬいぐるみ",
   "block.adachirei-nui.adachi-nui_new": "新型レイのぬいぐるみ",
-  "block.adachirei-nui.adachi-nui_vocaloid": "足立レイV6のぬいぐるみ"
+  "block.adachirei-nui.adachi-nui_vocaloid": "足立レイV6のぬいぐるみ",
+  "block.adachirei-nui.adachirei-nui_box": "足立レイブロック"
 }

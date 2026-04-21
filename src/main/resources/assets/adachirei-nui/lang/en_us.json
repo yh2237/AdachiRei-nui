@@ -1,10 +1,7 @@
 {
   "itemGroup.adachirei-nui": "Adachi Rei Nui",
-  "block.adachirei-nui.adachirei-nui_block": "Stuffed Adachi Rei",
-  "block.adachirei-nui.adachirei-nui_block_smile": "Stuffed Adachi Rei (Smile)",
-  "block.adachirei-nui.adachirei-nui_block_newmodel": "Stuffed New Model Rei",
-  "block.adachirei-nui.adachirei-nui_box": "Adachi Rei's block",
   "block.adachirei-nui.adachi-nui": "Stuffed Adachi Rei",
   "block.adachirei-nui.adachi-nui_new": "Stuffed New Model Rei",
-  "block.adachirei-nui.adachi-nui_vocaloid": "Stuffed Adachi Rei V6"
+  "block.adachirei-nui.adachi-nui_vocaloid": "Stuffed Adachi Rei V6",
+  "block.adachirei-nui.adachirei-nui_box": "Adachi Rei's block"
 }
