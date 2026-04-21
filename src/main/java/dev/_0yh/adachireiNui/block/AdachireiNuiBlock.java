@@ -3,8 +3,11 @@ package dev._0yh.adachireiNui.block;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -18,22 +21,25 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-public class AdachireiNuiBlock extends Block {
+public class AdachireiNuiBlock extends Block implements BlockEntityProvider {
 
     public static final EnumProperty<Direction> FACING = Properties.HORIZONTAL_FACING;
     private final Map<Direction, VoxelShape> shapes;
+    private final boolean renderAsBlockEntity;
 
-    public AdachireiNuiBlock(VoxelShape shape, Identifier id) {
+    public AdachireiNuiBlock(VoxelShape shape, Identifier id, boolean renderAsBlockEntity) {
         super(AbstractBlock.Settings.create()
                 .strength(0.5f)
                 .sounds(BlockSoundGroup.WOOL)
                 .registryKey(RegistryKey.of(RegistryKeys.BLOCK, id)));
 
         this.shapes = generateShapes(shape);
+        this.renderAsBlockEntity = renderAsBlockEntity;
         this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.SOUTH));
     }
 
@@ -44,7 +50,11 @@ public class AdachireiNuiBlock extends Block {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
+        Direction facing = ctx.getHorizontalPlayerFacing();
+        if (this.renderAsBlockEntity) {
+            facing = facing.getOpposite();
+        }
+        return this.getDefaultState().with(FACING, facing);
     }
 
     @Override
@@ -54,6 +64,19 @@ public class AdachireiNuiBlock extends Block {
             BlockPos pos,
             ShapeContext context) {
         return shapes.get(state.get(FACING));
+    }
+
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        if (!this.renderAsBlockEntity) {
+            return null;
+        }
+        return new AdachireiNuiBlockEntity(pos, state);
+    }
+
+    @Override
+    protected BlockRenderType getRenderType(BlockState state) {
+        return this.renderAsBlockEntity ? BlockRenderType.INVISIBLE : BlockRenderType.MODEL;
     }
 
     private Map<Direction, VoxelShape> generateShapes(VoxelShape shape) {
