@@ -21,7 +21,7 @@ import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -36,9 +36,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<AdachireiNuiBlockEntity> {
-    private static final Identifier MODEL_ADACHI_NUI = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui.json");
-    private static final Identifier MODEL_ADACHI_NUI_NEW = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_new.json");
-    private static final Identifier MODEL_ADACHI_NUI_VOCALOID = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_vocaloid.json");
+    public static final Identifier MODEL_ADACHI_NUI = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui.json");
+    public static final Identifier MODEL_ADACHI_NUI_NEW = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_new.json");
+    public static final Identifier MODEL_ADACHI_NUI_VOCALOID = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_vocaloid.json");
 
     private static final Map<Identifier, ParsedModel> MODEL_CACHE = new HashMap<>();
 
@@ -46,7 +46,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     @Override
-    public void render(AdachireiNuiBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
+    public void render(AdachireiNuiBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         BlockState state = entity.getCachedState();
         Block block = state.getBlock();
 
@@ -60,10 +60,18 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
             return;
         }
 
+        renderParsedModel(modelId, state.get(AdachireiNuiBlock.FACING), matrices, vertexConsumers, light, overlay);
+    }
+
+    public static void renderParsedModel(Identifier modelId, Direction facing, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        ParsedModel model = getOrLoadModel(modelId);
+        if (model == null) {
+            return;
+        }
+
         matrices.push();
-        Direction facing = state.get(AdachireiNuiBlock.FACING);
         matrices.translate(0.5F, 0.0F, 0.5F);
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-facing.getHorizontalQuarterTurns() * 90.0F));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-horizontalQuarterTurns(facing) * 90.0F));
         matrices.translate(-0.5F, 0.0F, -0.5F);
 
         MatrixStack.Entry entry = matrices.peek();
@@ -105,6 +113,24 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         }
 
         matrices.pop();
+    }
+
+    public static void applyDisplayTransform(Identifier modelId, ModelTransformationMode mode, MatrixStack matrices) {
+        ParsedModel model = getOrLoadModel(modelId);
+        if (model == null) {
+            return;
+        }
+
+        DisplayTransform transform = model.displayTransforms.get(modeName(mode));
+        if (transform == null) {
+            return;
+        }
+
+        matrices.translate(transform.translation.x / 16.0F, transform.translation.y / 16.0F, transform.translation.z / 16.0F);
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(transform.rotation.x));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(transform.rotation.y));
+        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(transform.rotation.z));
+        matrices.scale(transform.scale.x, transform.scale.y, transform.scale.z);
     }
 
     private static Identifier modelIdFor(Block block) {
@@ -189,7 +215,33 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
             elements.add(new ModelElement(from, to, rotation, faces));
         }
 
-        return new ParsedModel(textures, elements);
+        Map<String, DisplayTransform> displayTransforms = new HashMap<>();
+        if (root.has("display")) {
+            JsonObject displayObject = root.getAsJsonObject("display");
+            for (Map.Entry<String, JsonElement> entry : displayObject.entrySet()) {
+                JsonObject value = entry.getValue().getAsJsonObject();
+                Vector3f rotation = value.has("rotation") ? readVec3(value.getAsJsonArray("rotation")) : new Vector3f();
+                Vector3f translation = value.has("translation") ? readVec3(value.getAsJsonArray("translation")) : new Vector3f();
+                Vector3f scale = value.has("scale") ? readVec3(value.getAsJsonArray("scale")) : new Vector3f(1.0F, 1.0F, 1.0F);
+                displayTransforms.put(entry.getKey(), new DisplayTransform(rotation, translation, scale));
+            }
+        }
+
+        return new ParsedModel(textures, elements, displayTransforms);
+    }
+
+    private static String modeName(ModelTransformationMode mode) {
+        return switch (mode) {
+            case THIRD_PERSON_RIGHT_HAND -> "thirdperson_righthand";
+            case THIRD_PERSON_LEFT_HAND -> "thirdperson_lefthand";
+            case FIRST_PERSON_RIGHT_HAND -> "firstperson_righthand";
+            case FIRST_PERSON_LEFT_HAND -> "firstperson_lefthand";
+            case HEAD -> "head";
+            case GUI -> "gui";
+            case GROUND -> "ground";
+            case FIXED -> "fixed";
+            default -> null;
+        };
     }
 
     private static Vector3f[] faceVertices(Direction direction, float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
@@ -313,6 +365,16 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         };
     }
 
+    private static int horizontalQuarterTurns(Direction direction) {
+        return switch (direction) {
+            case SOUTH -> 0;
+            case WEST -> 1;
+            case NORTH -> 2;
+            case EAST -> 3;
+            default -> 0;
+        };
+    }
+
     private static Identifier resolveTexture(ParsedModel model, String textureRef) {
         String key = textureRef.startsWith("#") ? textureRef.substring(1) : textureRef;
         return model.textures.get(key);
@@ -332,7 +394,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         Z
     }
 
-    private record ParsedModel(Map<String, Identifier> textures, List<ModelElement> elements) {
+    private record ParsedModel(Map<String, Identifier> textures, List<ModelElement> elements, Map<String, DisplayTransform> displayTransforms) {
     }
 
     private record ModelElement(Vector3f from, Vector3f to, ElementRotation rotation, Map<Direction, ModelFace> faces) {
@@ -342,5 +404,8 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private record ModelFace(String textureRef, float[] uv, int rotation) {
+    }
+
+    private record DisplayTransform(Vector3f rotation, Vector3f translation, Vector3f scale) {
     }
 }

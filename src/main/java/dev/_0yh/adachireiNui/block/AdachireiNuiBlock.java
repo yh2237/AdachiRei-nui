@@ -19,8 +19,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
 
 import java.util.EnumMap;
@@ -35,8 +33,7 @@ public class AdachireiNuiBlock extends Block implements BlockEntityProvider {
     public AdachireiNuiBlock(VoxelShape shape, Identifier id, boolean renderAsBlockEntity) {
         super(AbstractBlock.Settings.create()
                 .strength(0.5f)
-                .sounds(BlockSoundGroup.WOOL)
-                .registryKey(RegistryKey.of(RegistryKeys.BLOCK, id)));
+                .sounds(BlockSoundGroup.WOOL));
 
         this.shapes = generateShapes(shape);
         this.renderAsBlockEntity = renderAsBlockEntity;
@@ -63,7 +60,16 @@ public class AdachireiNuiBlock extends Block implements BlockEntityProvider {
             BlockView world,
             BlockPos pos,
             ShapeContext context) {
-        return shapes.get(state.get(FACING));
+        return shapes.get(shapeDirection(state));
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(
+            BlockState state,
+            BlockView world,
+            BlockPos pos,
+            ShapeContext context) {
+        return shapes.get(shapeDirection(state));
     }
 
     @Override
@@ -93,8 +99,8 @@ public class AdachireiNuiBlock extends Block implements BlockEntityProvider {
     private static VoxelShape rotateShape(Direction from, Direction to, VoxelShape shape) {
         VoxelShape[] buffer = { shape, VoxelShapes.empty() };
 
-        int times = (to.getHorizontalQuarterTurns()
-                - from.getHorizontalQuarterTurns()
+        int times = (horizontalQuarterTurns(to)
+                - horizontalQuarterTurns(from)
                 + 4) % 4;
 
         for (int i = 0; i < times; i++) {
@@ -108,5 +114,20 @@ public class AdachireiNuiBlock extends Block implements BlockEntityProvider {
         }
 
         return buffer[0];
+    }
+
+    private static int horizontalQuarterTurns(Direction direction) {
+        return switch (direction) {
+            case SOUTH -> 0;
+            case WEST -> 1;
+            case NORTH -> 2;
+            case EAST -> 3;
+            default -> 0;
+        };
+    }
+
+    private Direction shapeDirection(BlockState state) {
+        Direction direction = state.get(FACING);
+        return this.renderAsBlockEntity ? direction.getOpposite() : direction;
     }
 }

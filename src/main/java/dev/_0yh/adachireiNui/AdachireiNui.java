@@ -76,9 +76,7 @@ public class AdachireiNui implements ModInitializer {
                 Registry.register(
                                 Registries.ITEM,
                                 id,
-                                new BlockItem(block, new Item.Settings()
-                                                .registryKey(RegistryKey.of(RegistryKeys.ITEM, id))
-                                                .useBlockPrefixedTranslationKey()));
+                                new BlockItem(block, new Item.Settings()));
 
                 return block;
         }
