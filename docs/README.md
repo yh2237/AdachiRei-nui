@@ -5,12 +5,7 @@
 ### Supported Environment
 
 - Mod Loader: **Fabric Loader 0.16.13** or later
-- Minecraft Version: **1.21.6–1.21.11**
 - Required Mod: **Fabric API**
-
-    ~~Although it runs on 1.21.11, it was slightly unstable and splash messages did not display correctly.~~
-
-    **Fixed in v1.0.1.**
 
 ---
 
@@ -36,9 +31,9 @@ Use the following command to place it on your head:
 
 ### About the Splash Messages
 
-Splash messages are randomly fetched via API from the **Adachi Database**, which archives nearly all tweets by [@adachirei0](https://x.com/adachirei0).
+Splash messages are randomly fetched via API from the [Adachi Database](https://adachidb.net), which archives nearly all tweets by [@adachirei0](https://x.com/adachirei0).
 
-As of 2026/02/09, the database contains **37,211 tweets**.
+As of 2026/04/22, the database contains 38786 tweets.
 
 If the client cannot connect to the server, the default Minecraft splash messages will be used instead.
 
