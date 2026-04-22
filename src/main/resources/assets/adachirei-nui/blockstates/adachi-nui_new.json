@@ -1,8 +1,8 @@
 {
   "variants": {
-    "facing=north": { "model": "adachirei-nui:block/adachi-nui_new"},
-    "facing=south": { "model": "adachirei-nui:block/adachi-nui_new", "y": 180 },
-    "facing=east":  { "model": "adachirei-nui:block/adachi-nui_new", "y": 90 },
-    "facing=west":  { "model": "adachirei-nui:block/adachi-nui_new", "y": 270 }
+    "facing=north": { "model": "adachirei-nui:block/adachi-nui_new_particle_proxy"},
+    "facing=south": { "model": "adachirei-nui:block/adachi-nui_new_particle_proxy", "y": 180 },
+    "facing=east":  { "model": "adachirei-nui:block/adachi-nui_new_particle_proxy", "y": 90 },
+    "facing=west":  { "model": "adachirei-nui:block/adachi-nui_new_particle_proxy", "y": 270 }
   }
 }
