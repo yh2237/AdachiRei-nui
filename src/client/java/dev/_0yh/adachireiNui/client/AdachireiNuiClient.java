@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.render.model.json.Transformation;
 import net.minecraft.util.Identifier;
@@ -63,38 +64,9 @@ public class AdachireiNuiClient implements ClientModInitializer {
                                 AdachireiNui.ADACHIREI_NUI_BLOCK_ENTITY_TYPE,
                                 AdachireiNuiBlockEntityRenderer::new);
 
-                BuiltinItemRendererRegistry.INSTANCE.register(AdachireiNui.ADACHI_BLOCK_5,
-                                (stack, mode, matrices, vertexConsumers, light, overlay) -> {
-                                        renderNuiItem(
-                                                        AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI,
-                                                        mode,
-                                                        matrices,
-                                                        vertexConsumers,
-                                                        light,
-                                                        overlay);
-                                });
-
-                BuiltinItemRendererRegistry.INSTANCE.register(AdachireiNui.ADACHI_BLOCK_6,
-                                (stack, mode, matrices, vertexConsumers, light, overlay) -> {
-                                        renderNuiItem(
-                                                        AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI_NEW,
-                                                        mode,
-                                                        matrices,
-                                                        vertexConsumers,
-                                                        light,
-                                                        overlay);
-                                });
-
-                BuiltinItemRendererRegistry.INSTANCE.register(AdachireiNui.ADACHI_BLOCK_7,
-                                (stack, mode, matrices, vertexConsumers, light, overlay) -> {
-                                        renderNuiItem(
-                                                        AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI_VOCALOID,
-                                                        mode,
-                                                        matrices,
-                                                        vertexConsumers,
-                                                        light,
-                                                        overlay);
-                                });
+                registerBuiltinItemRenderer(AdachireiNui.ADACHI_BLOCK_5, AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI);
+                registerBuiltinItemRenderer(AdachireiNui.ADACHI_BLOCK_6, AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI_NEW);
+                registerBuiltinItemRenderer(AdachireiNui.ADACHI_BLOCK_7, AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI_VOCALOID);
 
                 AdachireiSplashFetcher.fetchAsync();
         }
@@ -111,6 +83,17 @@ public class AdachireiNuiClient implements ClientModInitializer {
                 AdachireiNuiBlockEntityRenderer.renderParsedModel(modelId, Direction.SOUTH, matrices, vertexConsumers,
                                 light, overlay);
                 matrices.pop();
+        }
+
+        private static void registerBuiltinItemRenderer(ItemConvertible item, Identifier modelId) {
+                BuiltinItemRendererRegistry.INSTANCE.register(item,
+                                (stack, mode, matrices, vertexConsumers, light, overlay) -> renderNuiItem(
+                                                modelId,
+                                                mode,
+                                                matrices,
+                                                vertexConsumers,
+                                                light,
+                                                overlay));
         }
 
         private static void applyModelOriginOffset(ModelTransformationMode mode,
