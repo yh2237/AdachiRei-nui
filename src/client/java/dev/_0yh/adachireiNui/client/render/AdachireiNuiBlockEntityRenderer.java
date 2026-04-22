@@ -94,7 +94,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                     continue;
                 }
 
-                VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(textureId));
+                VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(textureId));
                 Vector3f[] vertices = faceVertices(faceDir, minX, minY, minZ, maxX, maxY, maxZ);
                 rotateElementVertices(vertices, element.rotation);
 
