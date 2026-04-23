@@ -17,6 +17,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.resource.Resource;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
@@ -31,11 +33,13 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<AdachireiNuiBlockEntity> {
-    public static final Identifier MODEL_ADACHI_NUI = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui.json");
-    public static final Identifier MODEL_ADACHI_NUI_NEW = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_new.json");
-    public static final Identifier MODEL_ADACHI_NUI_VOCALOID = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_vocaloid.json");
+
+    public static final Identifier MODEL_ADACHI_NUI = new Identifier(AdachireiNui.MOD_ID, "models/block/adachi-nui.json");
+    public static final Identifier MODEL_ADACHI_NUI_NEW = new Identifier(AdachireiNui.MOD_ID, "models/block/adachi-nui_new.json");
+    public static final Identifier MODEL_ADACHI_NUI_VOCALOID = new Identifier(AdachireiNui.MOD_ID, "models/block/adachi-nui_vocaloid.json");
 
     private static final Map<Identifier, ParsedModel> MODEL_CACHE = new HashMap<>();
 
@@ -126,8 +130,8 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
             return cached;
         }
 
-        var resourceManager = MinecraftClient.getInstance().getResourceManager();
-        var optionalResource = resourceManager.getResource(modelId);
+        ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
+        Optional<Resource> optionalResource = resourceManager.getResource(modelId);
         if (optionalResource.isEmpty()) {
             return null;
         }
@@ -149,7 +153,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
             String key = textureEntry.getKey();
             String value = textureEntry.getValue().getAsString();
             if (!value.startsWith("#")) {
-                textures.put(key, toDirectTextureId(Identifier.of(value)));
+                textures.put(key, toDirectTextureId(new Identifier(value.split(":")[0], value.split(":")[1])));
             }
         }
 
@@ -299,7 +303,8 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 .texture(u, v)
                 .overlay(overlay == 0 ? OverlayTexture.DEFAULT_UV : overlay)
                 .light(light)
-                .normal(entry, normal.x, normal.y, normal.z);
+                .normal(entry.getNormalMatrix(), normal.x, normal.y, normal.z);
+        consumer.next();
     }
 
     private static Direction directionByName(String name) {
@@ -330,7 +335,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private static Identifier toDirectTextureId(Identifier modelTextureId) {
-        return Identifier.of(modelTextureId.getNamespace(), "textures/" + modelTextureId.getPath() + ".png");
+        return new Identifier(modelTextureId.getNamespace(), "textures/" + modelTextureId.getPath() + ".png");
     }
 
     private static Vector3f readVec3(JsonArray array) {
@@ -338,9 +343,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private enum Axis {
-        X,
-        Y,
-        Z
+        X, Y, Z
     }
 
     private record ParsedModel(Map<String, Identifier> textures, List<ModelElement> elements) {

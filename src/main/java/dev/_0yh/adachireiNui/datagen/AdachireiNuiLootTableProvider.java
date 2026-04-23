@@ -3,13 +3,10 @@ package dev._0yh.adachireiNui.datagen;
 import dev._0yh.adachireiNui.AdachireiNui;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.registry.RegistryWrapper;
-
-import java.util.concurrent.CompletableFuture;
 
 public class AdachireiNuiLootTableProvider extends FabricBlockLootTableProvider {
-    public AdachireiNuiLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup);
+    public AdachireiNuiLootTableProvider(FabricDataOutput dataOutput) {
+        super(dataOutput);
     }
 
     @Override
