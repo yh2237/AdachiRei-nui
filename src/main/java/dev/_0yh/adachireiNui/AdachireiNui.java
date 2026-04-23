@@ -68,15 +68,18 @@ public class AdachireiNui implements ModInitializer {
         }
 
         private static Block registerBlock(Identifier id, VoxelShape shape, boolean renderAsBlockEntity) {
+                RegistryKey<Block> blockKey = RegistryKey.of(RegistryKeys.BLOCK, id);
                 Block block = Registry.register(
                                 Registries.BLOCK,
-                                id,
-                                new AdachireiNuiBlock(shape, id, renderAsBlockEntity));
+                                blockKey,
+                                new AdachireiNuiBlock(shape, blockKey, renderAsBlockEntity));
 
+                RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, id);
                 Registry.register(
                                 Registries.ITEM,
-                                id,
-                                new BlockItem(block, new Item.Settings()));
+                                itemKey,
+                                new BlockItem(block, new Item.Settings().registryKey(itemKey)
+                                                .useBlockPrefixedTranslationKey()));
 
                 return block;
         }

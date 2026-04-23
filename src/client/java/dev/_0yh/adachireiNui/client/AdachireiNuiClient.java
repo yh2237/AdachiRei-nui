@@ -9,7 +9,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemConvertible;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.client.render.model.json.Transformation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;

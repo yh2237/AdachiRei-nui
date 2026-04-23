@@ -3,6 +3,7 @@ package dev._0yh.adachireiNui.block;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -13,7 +14,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -30,8 +31,9 @@ public class AdachireiNuiBlock extends Block implements BlockEntityProvider {
     private final Map<Direction, VoxelShape> shapes;
     private final boolean renderAsBlockEntity;
 
-    public AdachireiNuiBlock(VoxelShape shape, Identifier id, boolean renderAsBlockEntity) {
+    public AdachireiNuiBlock(VoxelShape shape, RegistryKey<Block> blockKey, boolean renderAsBlockEntity) {
         super(AbstractBlock.Settings.create()
+                .registryKey(blockKey)
                 .strength(0.5f)
                 .sounds(BlockSoundGroup.WOOL));
 
