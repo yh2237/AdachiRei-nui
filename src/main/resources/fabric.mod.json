@@ -22,6 +22,9 @@
     ],
     "fabric-datagen": [
       "dev._0yh.adachireiNui.AdachireiNuiDataGenerator"
+    ],
+    "modmenu": [
+      "dev._0yh.adachireiNui.client.AdachireiModMenuIntegration"
     ]
   },
   "mixins": [
@@ -34,8 +37,5 @@
     "fabricloader": ">=0.16.13",
     "minecraft": "~1.21.1",
     "fabric": ">=0.102.0"
-  },
-  "modmenu": [
-    "dev._0yh.adachireiNui.client.AdachireiModMenuIntegration"
-  ]
+  }
 }
