@@ -3,5 +3,7 @@
   "block.adachirei-nui.adachi-nui": "Stuffed Adachi Rei",
   "block.adachirei-nui.adachi-nui_new": "Stuffed New Model Rei",
   "block.adachirei-nui.adachi-nui_vocaloid": "Stuffed Adachi Rei V6",
-  "block.adachirei-nui.adachirei-nui_box": "Adachi Rei's block"
+  "block.adachirei-nui.adachirei-nui_box": "Adachi Rei's block",
+  "text.autoconfig.adachirei-nui.title": "AdachiRei-nui Config",
+  "text.autoconfig.adachirei-nui.option.enableCustomSplash": "Enable Custom Splash Text"
 }

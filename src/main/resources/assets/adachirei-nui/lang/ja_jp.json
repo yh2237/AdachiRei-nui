@@ -3,5 +3,7 @@
   "block.adachirei-nui.adachi-nui": "足立レイのぬいぐるみ",
   "block.adachirei-nui.adachi-nui_new": "新型レイのぬいぐるみ",
   "block.adachirei-nui.adachi-nui_vocaloid": "足立レイV6のぬいぐるみ",
-  "block.adachirei-nui.adachirei-nui_box": "足立レイブロック"
+  "block.adachirei-nui.adachirei-nui_box": "足立レイブロック",
+  "text.autoconfig.adachirei-nui.title": "AdachiRei-nui 設定",
+  "text.autoconfig.adachirei-nui.option.enableCustomSplash": "カスタムスプラッシュテキストを有効化"
 }
