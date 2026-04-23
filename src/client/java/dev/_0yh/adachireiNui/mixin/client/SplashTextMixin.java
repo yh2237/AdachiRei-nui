@@ -1,6 +1,7 @@
 package dev._0yh.adachireiNui.mixin.client;
 
 import dev._0yh.adachireiNui.client.AdachireiSplashFetcher;
+import dev._0yh.adachireiNui.config.AdachireiConfig;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.resource.SplashTextResourceSupplier;
 import net.minecraft.text.Text;
@@ -39,7 +40,9 @@ public class SplashTextMixin {
                 cir.setReturnValue(renderer);
             }
         }
-        AdachireiSplashFetcher.fetchAsync();
+        if (AdachireiConfig.get().enableCustomSplash) {
+            AdachireiSplashFetcher.fetchAsync();
+        }
     }
 
     @Unique

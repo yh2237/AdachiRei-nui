@@ -2,6 +2,7 @@ package dev._0yh.adachireiNui.client;
 
 import dev._0yh.adachireiNui.AdachireiNui;
 import dev._0yh.adachireiNui.client.render.AdachireiNuiBlockEntityRenderer;
+import dev._0yh.adachireiNui.config.AdachireiConfig;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -13,6 +14,8 @@ import net.minecraft.client.render.model.json.Transformation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import org.joml.Vector3f;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 
 public class AdachireiNuiClient implements ClientModInitializer {
         private static final Vector3f OFFSET_GUI = new Vector3f(1.65F, 0.5F, 0.5F);
@@ -51,6 +54,8 @@ public class AdachireiNuiClient implements ClientModInitializer {
 
         @Override
         public void onInitializeClient() {
+                AutoConfig.register(AdachireiConfig.class, GsonConfigSerializer::new);
+
                 BlockRenderLayerMap.INSTANCE.putBlocks(
                                 RenderLayer.getCutout(),
                                 // AdachireiNui.ADACHI_BLOCK,
@@ -68,7 +73,9 @@ public class AdachireiNuiClient implements ClientModInitializer {
                 registerBuiltinItemRenderer(AdachireiNui.ADACHI_BLOCK_6, AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI_NEW);
                 registerBuiltinItemRenderer(AdachireiNui.ADACHI_BLOCK_7, AdachireiNuiBlockEntityRenderer.MODEL_ADACHI_NUI_VOCALOID);
 
-                AdachireiSplashFetcher.fetchAsync();
+                if (AdachireiConfig.get().enableCustomSplash) {
+                        AdachireiSplashFetcher.fetchAsync();
+                }
         }
 
         private static void renderNuiItem(Identifier modelId,
