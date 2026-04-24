@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_orange_wool": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "minecraft:orange_wool" }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "adachirei-nui:adachi-nui_new"
+      }
+    }
+  },
+  "requirements": [
+    ["has_the_recipe", "has_orange_wool"]
+  ],
+  "rewards": {
+    "recipes": [
+      "adachirei-nui:adachi-nui_new"
+    ]
+  }
+}

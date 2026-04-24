@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_adachi_nui": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": "adachirei-nui:adachi-nui" }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "adachirei-nui:adachirei-nui_box"
+      }
+    }
+  },
+  "requirements": [
+    ["has_the_recipe", "has_adachi_nui"]
+  ],
+  "rewards": {
+    "recipes": [
+      "adachirei-nui:adachirei-nui_box"
+    ]
+  }
+}
