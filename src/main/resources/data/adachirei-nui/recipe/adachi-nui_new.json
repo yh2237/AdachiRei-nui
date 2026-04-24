@@ -6,14 +6,13 @@
     "GIG"
   ],
   "key": {
-    "L": "minecraft:comparator",
-    "O": "minecraft:orange_wool",
-    "D": "minecraft:redstone_block",
-    "I": "minecraft:iron_nugget",
-    "G": "minecraft:gray_wool"
+    "L": { "item": "minecraft:comparator" },
+    "O": { "item": "minecraft:orange_wool" },
+    "D": { "item": "minecraft:redstone_block" },
+    "I": { "item": "minecraft:iron_nugget" },
+    "G": { "item": "minecraft:gray_wool" }
   },
   "result": {
-    "id": "adachirei-nui:adachi-nui_new",
-    "count": 1
+    "id": "adachirei-nui:adachi-nui_new"
   }
 }
