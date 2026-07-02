@@ -1,16 +1,5 @@
-.DS_Store
 .gradle/
 build/
-out/
-.idea/
-.classpath
-.factorypath
-.project
-.settings/
-bin/
 run/
-nul
-AdachiRei-nui_client.launch
-AdachiRei-nui_server.launch
-test_clients.ps1
+bin/
 build-output/
