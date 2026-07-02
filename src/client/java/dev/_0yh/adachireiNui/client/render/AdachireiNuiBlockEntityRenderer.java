@@ -10,6 +10,7 @@ import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -298,11 +299,12 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private static void vertex(VertexConsumer consumer, Matrix4f position, MatrixStack.Entry entry, Vector3f vertex, float u, float v, int light, Vector3f normal) {
-        consumer.vertex(position, vertex.x, vertex.y, vertex.z)
-                .color(255, 255, 255, 255)
-                .texture(u, v)
-                .light(light)
-                .normal(entry, normal.x, normal.y, normal.z);
+                consumer.vertex(position, vertex.x, vertex.y, vertex.z)
+                        .color(255, 255, 255, 255)
+                        .texture(u, v)
+                        .overlay(OverlayTexture.DEFAULT_UV)
+                        .light(light)
+                        .normal(entry, normal.x, normal.y, normal.z);
     }
 
     private static Direction directionByName(String name) {
