@@ -12,3 +12,4 @@ run/
 nul
 AdachiRei-nui_client.launch
 AdachiRei-nui_server.launch
+build-output/
