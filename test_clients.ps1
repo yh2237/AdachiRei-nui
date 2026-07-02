@@ -1,5 +1,14 @@
 $originalBranch = git rev-parse --abbrev-ref HEAD
 $branches = @(
+    "fabric/1.20.1",
+    "fabric/1.20.2",
+    "fabric/1.20.3",
+    "fabric/1.20.4",
+    "fabric/1.20.5",
+    "fabric/1.20.6",
+    "fabric/1.21.1",
+    "fabric/1.21.2",
+    "fabric/1.21.3",
     "fabric/1.21.6",
     "fabric/1.21.7",
     "fabric/1.21.8",
