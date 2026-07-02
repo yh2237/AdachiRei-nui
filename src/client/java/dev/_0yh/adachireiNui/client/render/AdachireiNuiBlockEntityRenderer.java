@@ -303,7 +303,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 .texture(u, v)
                 .overlay(overlay == 0 ? OverlayTexture.DEFAULT_UV : overlay)
                 .light(light)
-                .normal(entry.getNormalMatrix(), normal.x, normal.y, normal.z);
+                .normal(entry, normal.x, normal.y, normal.z);
         consumer.next();
     }
 

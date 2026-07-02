@@ -3,7 +3,7 @@
   "id": "adachirei-nui",
   "version": "${version}",
   "name": "AdachiRei-nui",
-  "description": "‘«—§ƒŒƒC‚Ì‚Ê‚¢‚®‚é‚Ý‚ð’Ç‰Á‚·‚é",
+  "description": "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½Ì‚Ê‚ï¿½ï¿½ï¿½ï¿½ï¿½Ý‚ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½",
   "authors": ["yh"],
   "contact": {
     "homepage": "https://modrinth.com/mod/adachirei-nui",
@@ -35,11 +35,11 @@
   ],
   "depends": {
     "fabricloader": ">=0.15.0",
-    "minecraft": "~1.20.4",
-    "fabric": ">=0.97.3",
-    "cloth-config": ">=13.0.0"
+    "minecraft": "~1.20.5",
+    "fabric": ">=0.97.8",
+    "cloth-config": ">=14.0.0"
   },
   "recommends": {
-    "modmenu": ">=9.0.0"
+    "modmenu": ">=10.0.0"
   }
 }
