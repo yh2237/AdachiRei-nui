@@ -3,7 +3,7 @@
   "id": "adachirei-nui",
   "version": "${version}",
   "name": "AdachiRei-nui",
-  "description": "�������C�̂ʂ�����݂�ǉ�����",
+  "description": "足立レイのぬいぐるみを追加する",
   "authors": ["yh"],
   "contact": {
     "homepage": "https://modrinth.com/mod/adachirei-nui",
@@ -35,8 +35,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.15.0",
-    "minecraft": "~1.20.5",
-    "fabric": ">=0.97.8",
+    "minecraft": "~1.20.6",
+    "fabric": ">=0.100.8",
     "cloth-config": ">=14.0.0"
   },
   "recommends": {
