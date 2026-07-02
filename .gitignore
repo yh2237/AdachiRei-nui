@@ -13,3 +13,4 @@ nul
 AdachiRei-nui_client.launch
 AdachiRei-nui_server.launch
 test_clients.ps1
+build-output/
