@@ -10,17 +10,19 @@ import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.block.entity.BlockEntityRenderState;
+import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -33,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<AdachireiNuiBlockEntity, BlockEntityRenderState> {
+public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<AdachireiNuiBlockEntity, AdachireiNuiRenderState> {
     public static final Identifier MODEL_ADACHI_NUI = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui.json");
     public static final Identifier MODEL_ADACHI_NUI_NEW = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_new.json");
     public static final Identifier MODEL_ADACHI_NUI_VOCALOID = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_vocaloid.json");
@@ -44,31 +46,31 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     @Override
-    public void render(AdachireiNuiBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderState state) {
-        BlockState state = entity.getCachedState();
-        Block block = state.getBlock();
-
-        Identifier modelId = modelIdFor(block);
-        if (modelId == null) {
-            return;
-        }
-
-        renderParsedModel(modelId, state.get(AdachireiNuiBlock.FACING), matrices, vertexConsumers, light, overlay);
+    public AdachireiNuiRenderState createRenderState() {
+        return new AdachireiNuiRenderState();
     }
 
-    public static void renderParsedModel(Identifier modelId, Direction facing, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    @Override
+    public void updateRenderState(AdachireiNuiBlockEntity entity, AdachireiNuiRenderState state, float tickDelta, Vec3d cameraPos, net.minecraft.client.render.command.ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlay) {
+        BlockEntityRenderState.updateBlockEntityRenderState(entity, state, crumblingOverlay);
+        state.modelId = modelIdFor(entity.getCachedState().getBlock());
+        state.facing = entity.getCachedState().get(AdachireiNuiBlock.FACING);
+    }
+
+    @Override
+    public void render(AdachireiNuiRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraRenderState) {
+        if (state.modelId == null) return;
+        renderParsedModel(state.modelId, state.facing, matrices, queue, state.lightmapCoordinates);
+    }
+
+    public static void renderParsedModel(Identifier modelId, Direction facing, MatrixStack matrices, OrderedRenderCommandQueue queue, int light) {
         ParsedModel model = getOrLoadModel(modelId);
-        if (model == null) {
-            return;
-        }
+        if (model == null) return;
 
         matrices.push();
         matrices.translate(0.5F, 0.0F, 0.5F);
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-horizontalQuarterTurns(facing) * 90.0F));
         matrices.translate(-0.5F, 0.0F, -0.5F);
-
-        MatrixStack.Entry entry = matrices.peek();
-        Matrix4f position = entry.getPositionMatrix();
 
         for (ModelElement element : model.elements) {
             float minX = element.from.x / 16.0F;
@@ -83,11 +85,9 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 ModelFace face = faceEntry.getValue();
 
                 Identifier textureId = resolveTexture(model, face.textureRef);
-                if (textureId == null) {
-                    continue;
-                }
+                if (textureId == null) continue;
 
-                VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(textureId));
+                RenderLayer renderLayer = RenderLayers.entityCutout(textureId);
                 Vector3f[] vertices = faceVertices(faceDir, minX, minY, minZ, maxX, maxY, maxZ);
                 rotateElementVertices(vertices, element.rotation);
 
@@ -98,10 +98,14 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 float[] uv1 = faceUv(face.uv, face.rotation, 1);
                 float[] uv2 = faceUv(face.uv, face.rotation, 2);
                 float[] uv3 = faceUv(face.uv, face.rotation, 3);
-                vertex(consumer, position, entry, vertices[0], uv0[0], uv0[1], light, overlay, normal);
-                vertex(consumer, position, entry, vertices[1], uv1[0], uv1[1], light, overlay, normal);
-                vertex(consumer, position, entry, vertices[2], uv2[0], uv2[1], light, overlay, normal);
-                vertex(consumer, position, entry, vertices[3], uv3[0], uv3[1], light, overlay, normal);
+
+                queue.submitCustom(matrices, renderLayer, (entry, consumer) -> {
+                    Matrix4f position = entry.getPositionMatrix();
+                    vertex(consumer, position, entry, vertices[0], uv0[0], uv0[1], light, normal);
+                    vertex(consumer, position, entry, vertices[1], uv1[0], uv1[1], light, normal);
+                    vertex(consumer, position, entry, vertices[2], uv2[0], uv2[1], light, normal);
+                    vertex(consumer, position, entry, vertices[3], uv3[0], uv3[1], light, normal);
+                });
             }
         }
 
@@ -294,11 +298,10 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         return corners[sourceIndex];
     }
 
-    private static void vertex(VertexConsumer consumer, Matrix4f position, MatrixStack.Entry entry, Vector3f vertex, float u, float v, int light, int overlay, Vector3f normal) {
+    private static void vertex(VertexConsumer consumer, Matrix4f position, MatrixStack.Entry entry, Vector3f vertex, float u, float v, int light, Vector3f normal) {
         consumer.vertex(position, vertex.x, vertex.y, vertex.z)
                 .color(255, 255, 255, 255)
                 .texture(u, v)
-                .overlay(overlay == 0 ? OverlayTexture.DEFAULT_UV : overlay)
                 .light(light)
                 .normal(entry, normal.x, normal.y, normal.z);
     }
