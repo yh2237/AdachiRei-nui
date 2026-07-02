@@ -3,3 +3,4 @@ build/
 run/
 bin/
 build-output/
+.env

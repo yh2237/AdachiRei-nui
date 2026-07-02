@@ -5,11 +5,13 @@ param(
     [string]$ApiToken = ""
 )
 
-if (-not $ApiToken) {
-    $ApiToken = [System.Environment]::GetEnvironmentVariable("MODRINTH_TOKEN")
+if (-not $ApiToken -and (Test-Path ".env")) {
+    Get-Content ".env" | ForEach-Object {
+        if ($_ -match '^MODRINTH_TOKEN=(.+)') { $ApiToken = $matches[1] }
+    }
 }
 if (-not $ApiToken) {
-    $ApiToken = Read-Host "Enter Modrinth API token"
+    $ApiToken = [System.Environment]::GetEnvironmentVariable("MODRINTH_TOKEN")
 }
 if (-not $ApiToken) {
     Write-Host "ERROR: No API token" -ForegroundColor Red; pause; exit 1
