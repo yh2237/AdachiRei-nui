@@ -2,11 +2,6 @@
 
 ｜[English](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/README.md)｜[Japanese](https://github.com/yh2237/AdachiRei-nui/blob/main/docs/README_jp.md)｜
 
-### Supported Environment
-
-- Mod Loader: **Fabric Loader 0.16.13** or later
-- Required Mod: **Fabric API**
-
 ---
 
 - [Download](https://modrinth.com/mod/adachirei-nui)
