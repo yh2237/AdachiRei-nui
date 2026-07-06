@@ -59,7 +59,6 @@ public class AdachireiSplashFetcher {
             } catch (Exception e) {
                 LOGGER.warn("Failed to fetch splash from API: {}", e.getMessage());
                 future.complete(null);
-            } finally {
             }
         });
     }

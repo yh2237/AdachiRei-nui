@@ -1,10 +1,22 @@
 pluginManagement {
     repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-
         gradlePluginPortal()
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+        maven {
+            name = 'SpongePowered'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        }
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (it.requested.id.namespace == 'org.spongepowered') {
+                it.useModule('org.spongepowered:mixingradle:0.7.+')
+            }
+        }
     }
 }
+
+rootProject.name = 'AdachiRei-nui'

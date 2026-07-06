@@ -1,15 +1,38 @@
 package dev._0yh.adachireiNui.config;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import dev._0yh.adachireiNui.AdachireiNui;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ModConfig;
 
-@Config(name = "adachirei-nui")
-public class AdachireiConfig implements ConfigData {
-    public boolean enableCustomSplash = true;
+public class AdachireiConfig {
+    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+    private static final ForgeConfigSpec SPEC;
 
-    public static AdachireiConfig get() {
-        return AutoConfig.getConfigHolder(AdachireiConfig.class).getConfig();
+    public static final ForgeConfigSpec.BooleanValue enableCustomSplash;
+
+    static {
+        BUILDER.push("general");
+        enableCustomSplash = BUILDER
+                .comment("Enable custom splash text from API")
+                .define("enableCustomSplash", true);
+        BUILDER.pop();
+        SPEC = BUILDER.build();
+    }
+
+    public static void init() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, SPEC);
+    }
+
+    public static boolean getEnableCustomSplash() {
+        return enableCustomSplash.get();
+    }
+
+    public static ConfigValues get() {
+        return new ConfigValues();
+    }
+
+    public static class ConfigValues {
+        public final boolean enableCustomSplash = getEnableCustomSplash();
     }
 }
