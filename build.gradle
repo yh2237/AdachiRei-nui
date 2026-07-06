@@ -5,6 +5,8 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
+version = project.mod_version
+
 base {
     archivesName = project.archives_base_name
 }
