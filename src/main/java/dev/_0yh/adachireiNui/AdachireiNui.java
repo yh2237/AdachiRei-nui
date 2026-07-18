@@ -26,13 +26,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(AdachireiNui.MOD_ID)
 public class AdachireiNui {
-    public static final String MOD_ID = "adachirei-nui";
+    public static final String MOD_ID = "adachirei_nui";
 
     public static final ResourceLocation BLOCK_ID_4 = new ResourceLocation(MOD_ID, "adachirei-nui_box");
     public static final ResourceLocation BLOCK_ID_5 = new ResourceLocation(MOD_ID, "adachi-nui");
     public static final ResourceLocation BLOCK_ID_6 = new ResourceLocation(MOD_ID, "adachi-nui_new");
     public static final ResourceLocation BLOCK_ID_7 = new ResourceLocation(MOD_ID, "adachi-nui_vocaloid");
-    public static final ResourceLocation BLOCK_ENTITY_ID = new ResourceLocation(MOD_ID, "adachirei_nui");
+    public static final ResourceLocation BLOCK_ENTITY_ID = new ResourceLocation(MOD_ID, "adachirei-nui");
 
     private static final VoxelShape ADACHI_NUI_SHAPE = Shapes.box(0.2, 0, 0.2, 0.8, 0.9, 0.9);
 
@@ -60,7 +60,7 @@ public class AdachireiNui {
         ADACHI_BLOCK_6 = registerBlock("adachi-nui_new", ADACHI_NUI_SHAPE, true);
         ADACHI_BLOCK_7 = registerBlock("adachi-nui_vocaloid", ADACHI_NUI_SHAPE, true);
 
-        BLOCK_ENTITIES.register("adachirei_nui",
+        BLOCK_ENTITIES.register("adachirei-nui",
                 () -> BlockEntityType.Builder.of(AdachireiNuiBlockEntity::new,
                         ADACHI_BLOCK_5, ADACHI_BLOCK_6, ADACHI_BLOCK_7).build(null));
 

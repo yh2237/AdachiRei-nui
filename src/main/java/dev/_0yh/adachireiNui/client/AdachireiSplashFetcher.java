@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AdachireiSplashFetcher {
-    private static final Logger LOGGER = LoggerFactory.getLogger("adachirei-nui");
+    private static final Logger LOGGER = LoggerFactory.getLogger("adachirei_nui");
     private static final String API_URL = "https://adachidb.net/api/posts/random";
     private static final Duration TIMEOUT = Duration.ofSeconds(5);
 

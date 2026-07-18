@@ -4,22 +4,22 @@ license="MIT"
 issueTrackerURL="https://github.com/yh2237/AdachiRei-nui/issues"
 
 [[mods]]
-modId="adachirei-nui"
+modId="adachirei_nui"
 version="${mod_version}"
 displayName="AdachiRei-nui"
-logoFile="assets/adachirei-nui/icon.png"
+logoFile="assets/adachirei_nui/icon.png"
 credits="yh"
 authors="yh"
 description='Adds Adachi Rei plushies to Minecraft'
 displayURL="https://modrinth.com/mod/adachirei-nui"
 updateJSONURL=""
-[[dependencies.adachirei-nui]]
+[[dependencies.adachirei_nui]]
     modId="forge"
     mandatory=true
     versionRange="[47,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.adachirei-nui]]
+[[dependencies.adachirei_nui]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.20.1,1.20.2)"
