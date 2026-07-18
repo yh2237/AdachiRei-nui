@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -123,7 +124,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         return null;
     }
 
-    private static ParsedModel getOrLoadModel(ResourceLocation modelId) {
+    public static ParsedModel getOrLoadModel(ResourceLocation modelId) {
         ParsedModel cached = MODEL_CACHE.get(modelId);
         if (cached != null) {
             return cached;
@@ -148,52 +149,69 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     private static ParsedModel parseModel(JsonObject root) {
         Map<String, ResourceLocation> textures = new HashMap<>();
         JsonObject texturesObject = root.getAsJsonObject("textures");
-        for (Map.Entry<String, JsonElement> textureEntry : texturesObject.entrySet()) {
-            String key = textureEntry.getKey();
-            String value = textureEntry.getValue().getAsString();
-            if (!value.startsWith("#")) {
-                textures.put(key, toDirectTextureId(new ResourceLocation(value.split(":")[0], value.split(":")[1])));
+        if (texturesObject != null) {
+            for (Map.Entry<String, JsonElement> textureEntry : texturesObject.entrySet()) {
+                String key = textureEntry.getKey();
+                String value = textureEntry.getValue().getAsString();
+                if (!value.startsWith("#")) {
+                    textures.put(key, toDirectTextureId(new ResourceLocation(value.split(":")[0], value.split(":")[1])));
+                }
             }
         }
 
         List<ModelElement> elements = new ArrayList<>();
-        for (JsonElement elementValue : root.getAsJsonArray("elements")) {
-            JsonObject elementObject = elementValue.getAsJsonObject();
-            Vector3f from = readVec3(elementObject.getAsJsonArray("from"));
-            Vector3f to = readVec3(elementObject.getAsJsonArray("to"));
+        if (root.has("elements")) {
+            for (JsonElement elementValue : root.getAsJsonArray("elements")) {
+                JsonObject elementObject = elementValue.getAsJsonObject();
+                Vector3f from = readVec3(elementObject.getAsJsonArray("from"));
+                Vector3f to = readVec3(elementObject.getAsJsonArray("to"));
 
-            ElementRotation rotation = null;
-            if (elementObject.has("rotation")) {
-                JsonObject rotationObject = elementObject.getAsJsonObject("rotation");
-                rotation = new ElementRotation(
-                        readVec3(rotationObject.getAsJsonArray("origin")),
-                        Axis.valueOf(rotationObject.get("axis").getAsString().toUpperCase()),
-                        rotationObject.get("angle").getAsFloat());
-            }
-
-            Map<Direction, ModelFace> faces = new EnumMap<>(Direction.class);
-            JsonObject faceObject = elementObject.getAsJsonObject("faces");
-            for (Map.Entry<String, JsonElement> faceEntry : faceObject.entrySet()) {
-                Direction direction = directionByName(faceEntry.getKey());
-                if (direction == null) {
-                    continue;
+                ElementRotation rotation = null;
+                if (elementObject.has("rotation")) {
+                    JsonObject rotationObject = elementObject.getAsJsonObject("rotation");
+                    rotation = new ElementRotation(
+                            readVec3(rotationObject.getAsJsonArray("origin")),
+                            Axis.valueOf(rotationObject.get("axis").getAsString().toUpperCase()),
+                            rotationObject.get("angle").getAsFloat());
                 }
 
-                JsonObject faceData = faceEntry.getValue().getAsJsonObject();
-                JsonArray uvArray = faceData.getAsJsonArray("uv");
-                float u1 = uvArray.get(0).getAsFloat() / 16.0F;
-                float v1 = uvArray.get(1).getAsFloat() / 16.0F;
-                float u2 = uvArray.get(2).getAsFloat() / 16.0F;
-                float v2 = uvArray.get(3).getAsFloat() / 16.0F;
-                String textureRef = faceData.get("texture").getAsString();
-                int faceRotation = faceData.has("rotation") ? faceData.get("rotation").getAsInt() : 0;
-                faces.put(direction, new ModelFace(textureRef, new float[]{u1, v1, u2, v2}, faceRotation));
-            }
+                Map<Direction, ModelFace> faces = new EnumMap<>(Direction.class);
+                if (elementObject.has("faces")) {
+                    JsonObject faceObject = elementObject.getAsJsonObject("faces");
+                    for (Map.Entry<String, JsonElement> faceEntry : faceObject.entrySet()) {
+                        Direction direction = directionByName(faceEntry.getKey());
+                        if (direction == null) continue;
 
-            elements.add(new ModelElement(from, to, rotation, faces));
+                        JsonObject faceData = faceEntry.getValue().getAsJsonObject();
+                        JsonArray uvArray = faceData.getAsJsonArray("uv");
+                        float u1 = uvArray.get(0).getAsFloat() / 16.0F;
+                        float v1 = uvArray.get(1).getAsFloat() / 16.0F;
+                        float u2 = uvArray.get(2).getAsFloat() / 16.0F;
+                        float v2 = uvArray.get(3).getAsFloat() / 16.0F;
+                        String textureRef = faceData.get("texture").getAsString();
+                        int faceRotation = faceData.has("rotation") ? faceData.get("rotation").getAsInt() : 0;
+                        faces.put(direction, new ModelFace(textureRef, new float[]{u1, v1, u2, v2}, faceRotation));
+                    }
+                }
+
+                elements.add(new ModelElement(from, to, rotation, faces));
+            }
         }
 
-        return new ParsedModel(textures, elements);
+        Map<String, DisplayData> display = new HashMap<>();
+        if (root.has("display")) {
+            JsonObject displayObject = root.getAsJsonObject("display");
+            for (Map.Entry<String, JsonElement> entry : displayObject.entrySet()) {
+                String key = entry.getKey();
+                JsonObject data = entry.getValue().getAsJsonObject();
+                Vector3f rotation = data.has("rotation") ? readVec3(data.getAsJsonArray("rotation")) : new Vector3f(0, 0, 0);
+                Vector3f translation = data.has("translation") ? readVec3(data.getAsJsonArray("translation")) : new Vector3f(0, 0, 0);
+                Vector3f scale = data.has("scale") ? readVec3(data.getAsJsonArray("scale")) : new Vector3f(1, 1, 1);
+                display.put(key, new DisplayData(rotation, translation, scale));
+            }
+        }
+
+        return new ParsedModel(textures, elements, display);
     }
 
     private static Vector3f[] faceVertices(Direction direction, float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
@@ -345,7 +363,36 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         X, Y, Z
     }
 
-    private record ParsedModel(Map<String, ResourceLocation> textures, List<ModelElement> elements) {
+    private record ParsedModel(Map<String, ResourceLocation> textures, List<ModelElement> elements, Map<String, DisplayData> display) {
+    }
+
+    private record DisplayData(Vector3f rotation, Vector3f translation, Vector3f scale) {
+    }
+
+    public static void applyDisplayTransform(ParsedModel model, String displayKey, PoseStack matrices) {
+        if (model.display == null) return;
+        DisplayData data = model.display.get(displayKey);
+        if (data == null) return;
+
+        matrices.translate(data.translation.x / 16.0F, data.translation.y / 16.0F, data.translation.z / 16.0F);
+        matrices.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(data.rotation.z()));
+        matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(data.rotation.y()));
+        matrices.mulPose(com.mojang.math.Axis.XP.rotationDegrees(data.rotation.x()));
+        matrices.scale(data.scale.x(), data.scale.y(), data.scale.z());
+    }
+
+    public static String displayKeyFor(ItemDisplayContext mode) {
+        return switch (mode) {
+            case THIRD_PERSON_RIGHT_HAND -> "thirdperson_righthand";
+            case THIRD_PERSON_LEFT_HAND -> "thirdperson_lefthand";
+            case FIRST_PERSON_RIGHT_HAND -> "firstperson_righthand";
+            case FIRST_PERSON_LEFT_HAND -> "firstperson_lefthand";
+            case GROUND -> "ground";
+            case GUI -> "gui";
+            case HEAD -> "head";
+            case FIXED -> "fixed";
+            default -> null;
+        };
     }
 
     private record ModelElement(Vector3f from, Vector3f to, ElementRotation rotation, Map<Direction, ModelFace> faces) {

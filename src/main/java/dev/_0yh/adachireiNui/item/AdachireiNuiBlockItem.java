@@ -13,8 +13,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 
@@ -42,7 +40,14 @@ public class AdachireiNuiBlockItem extends BlockItem {
                                 PoseStack matrices, MultiBufferSource vertexConsumers,
                                 int light, int overlay) {
                             matrices.pushPose();
-                            renderItemModel(mode, matrices);
+                            matrices.translate(-0.5F, -0.5F, -0.5F);
+                            String displayKey = AdachireiNuiBlockEntityRenderer.displayKeyFor(mode);
+                            if (displayKey != null) {
+                                var model = AdachireiNuiBlockEntityRenderer.getOrLoadModel(modelId);
+                                if (model != null) {
+                                    AdachireiNuiBlockEntityRenderer.applyDisplayTransform(model, displayKey, matrices);
+                                }
+                            }
                             AdachireiNuiBlockEntityRenderer.renderParsedModel(
                                     modelId, Direction.SOUTH, matrices, vertexConsumers, light, overlay);
                             matrices.popPose();
@@ -52,35 +57,5 @@ public class AdachireiNuiBlockItem extends BlockItem {
                 return renderer;
             }
         });
-    }
-
-    private static void renderItemModel(ItemDisplayContext mode, PoseStack matrices) {
-        matrices.translate(-0.5F, -0.5F, -0.5F);
-
-        switch (mode) {
-            case GUI:
-                matrices.scale(0.5F, 0.5F, 0.5F);
-                matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(45));
-                break;
-            case FIRST_PERSON_RIGHT_HAND:
-            case FIRST_PERSON_LEFT_HAND:
-                matrices.scale(0.4F, 0.4F, 0.4F);
-                break;
-            case THIRD_PERSON_RIGHT_HAND:
-            case THIRD_PERSON_LEFT_HAND:
-                matrices.scale(0.4F, 0.4F, 0.4F);
-                break;
-            case GROUND:
-                matrices.scale(0.3F, 0.3F, 0.3F);
-                break;
-            case FIXED:
-                matrices.scale(0.5F, 0.5F, 0.5F);
-                break;
-            case HEAD:
-                matrices.scale(0.5F, 0.5F, 0.5F);
-                break;
-            case NONE:
-                break;
-        }
     }
 }
