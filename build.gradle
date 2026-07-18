@@ -94,3 +94,19 @@ tasks.named('jar', Jar).configure {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+
+def java17 = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(17)
+}
+
+tasks.named('runClient').configure {
+    javaLauncher = java17
+}
+
+tasks.named('runServer').configure {
+    javaLauncher = java17
+}
+
+tasks.named('runData').configure {
+    javaLauncher = java17
+}
