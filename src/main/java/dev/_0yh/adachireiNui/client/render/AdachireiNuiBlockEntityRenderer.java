@@ -40,9 +40,9 @@ import java.util.Optional;
 
 public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<AdachireiNuiBlockEntity> {
 
-    public static final ResourceLocation MODEL_ADACHI_NUI = new ResourceLocation(AdachireiNui.MOD_ID, "models/block/adachi-nui.json");
-    public static final ResourceLocation MODEL_ADACHI_NUI_NEW = new ResourceLocation(AdachireiNui.MOD_ID, "models/block/adachi-nui_new.json");
-    public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = new ResourceLocation(AdachireiNui.MOD_ID, "models/block/adachi-nui_vocaloid.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI = new ResourceLocation(AdachireiNui.MOD_ID, "custom/adachi-nui.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_NEW = new ResourceLocation(AdachireiNui.MOD_ID, "custom/adachi-nui_new.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = new ResourceLocation(AdachireiNui.MOD_ID, "custom/adachi-nui_vocaloid.json");
 
     private static final Map<ResourceLocation, ParsedModel> MODEL_CACHE = new HashMap<>();
 
@@ -115,13 +115,13 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private static ResourceLocation modelIdFor(Block block) {
-        if (block == AdachireiNui.ADACHI_BLOCK_5) {
+        if (block == AdachireiNui.ADACHI_BLOCK_5.get()) {
             return MODEL_ADACHI_NUI;
         }
-        if (block == AdachireiNui.ADACHI_BLOCK_6) {
+        if (block == AdachireiNui.ADACHI_BLOCK_6.get()) {
             return MODEL_ADACHI_NUI_NEW;
         }
-        if (block == AdachireiNui.ADACHI_BLOCK_7) {
+        if (block == AdachireiNui.ADACHI_BLOCK_7.get()) {
             return MODEL_ADACHI_NUI_VOCALOID;
         }
         return null;

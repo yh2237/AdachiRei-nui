@@ -16,19 +16,17 @@ public class AdachireiNuiClient {
 
     public static void onClientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            AdachireiConfig.init();
-
             Block[] cutoutBlocks = {
-                    AdachireiNui.ADACHI_BLOCK_5,
-                    AdachireiNui.ADACHI_BLOCK_6,
-                    AdachireiNui.ADACHI_BLOCK_7
+                    AdachireiNui.ADACHI_BLOCK_5.get(),
+                    AdachireiNui.ADACHI_BLOCK_6.get(),
+                    AdachireiNui.ADACHI_BLOCK_7.get()
             };
             for (Block block : cutoutBlocks) {
                 ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutout());
             }
 
             BlockEntityRenderers.register(
-                    AdachireiNui.ADACHIREI_NUI_BLOCK_ENTITY_TYPE,
+                    AdachireiNui.ADACHIREI_NUI_BLOCK_ENTITY_TYPE.get(),
                     AdachireiNuiBlockEntityRenderer::new);
 
             if (AdachireiConfig.get().enableCustomSplash) {

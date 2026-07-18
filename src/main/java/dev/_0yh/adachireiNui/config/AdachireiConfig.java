@@ -25,6 +25,7 @@ public class AdachireiConfig {
     }
 
     public static boolean getEnableCustomSplash() {
+        if (!SPEC.isLoaded()) return true;
         return enableCustomSplash.get();
     }
 
