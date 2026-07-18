@@ -3,6 +3,23 @@ $branches = @(
     "forge/1.20.1"
 )
 
+# Forge 1.20.1 requires JDK 17 — find it if not already set
+if ($env:JAVA_HOME -notmatch "jdk-?17") {
+    $jdk17 = @(
+        "$env:TEMP\jdk17_unzipped\jdk-17*",
+        "C:\Program Files\Java\jdk-17*",
+        "C:\Program Files\Eclipse Adoptium\jdk-17*",
+        "C:\Program Files\Eclipse Adoptium\temurin-17*",
+        "$env:LOCALAPPDATA\Programs\Eclipse Adoptium\jdk-17*"
+    ) | ForEach-Object { Get-ChildItem $_ -ErrorAction SilentlyContinue } | Select-Object -First 1
+    if ($jdk17) {
+        $env:JAVA_HOME = $jdk17.FullName
+        Write-Host "Using JDK 17: $env:JAVA_HOME" -ForegroundColor Cyan
+    } else {
+        Write-Host "WARNING: JDK 17 not found. Forge client may fail." -ForegroundColor Yellow
+    }
+}
+
 foreach ($b in $branches) {
     Write-Host "========================================" -ForegroundColor Cyan
     Write-Host "  [$b]" -ForegroundColor Yellow
