@@ -375,9 +375,9 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         if (data == null) return;
 
         matrices.translate(data.translation.x / 16.0F, data.translation.y / 16.0F, data.translation.z / 16.0F);
-        matrices.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(data.rotation.z()));
-        matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(data.rotation.y()));
         matrices.mulPose(com.mojang.math.Axis.XP.rotationDegrees(data.rotation.x()));
+        matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(data.rotation.y()));
+        matrices.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(data.rotation.z()));
         matrices.scale(data.scale.x(), data.scale.y(), data.scale.z());
     }
 

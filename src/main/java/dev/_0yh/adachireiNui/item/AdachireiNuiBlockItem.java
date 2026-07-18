@@ -40,7 +40,6 @@ public class AdachireiNuiBlockItem extends BlockItem {
                                 PoseStack matrices, MultiBufferSource vertexConsumers,
                                 int light, int overlay) {
                             matrices.pushPose();
-                            matrices.translate(-0.5F, -0.5F, -0.5F);
                             String displayKey = AdachireiNuiBlockEntityRenderer.displayKeyFor(mode);
                             if (displayKey != null) {
                                 var model = AdachireiNuiBlockEntityRenderer.getOrLoadModel(modelId);
@@ -48,6 +47,7 @@ public class AdachireiNuiBlockItem extends BlockItem {
                                     AdachireiNuiBlockEntityRenderer.applyDisplayTransform(model, displayKey, matrices);
                                 }
                             }
+                            matrices.translate(-0.5F, -0.5F, -0.5F);
                             AdachireiNuiBlockEntityRenderer.renderParsedModel(
                                     modelId, Direction.SOUTH, matrices, vertexConsumers, light, overlay);
                             matrices.popPose();
