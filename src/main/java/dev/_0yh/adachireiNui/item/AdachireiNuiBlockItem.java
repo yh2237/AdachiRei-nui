@@ -55,40 +55,31 @@ public class AdachireiNuiBlockItem extends BlockItem {
     }
 
     private static void renderItemModel(ItemDisplayContext mode, PoseStack matrices) {
-        boolean leftHand = mode == ItemDisplayContext.FIRST_PERSON_LEFT_HAND
-                || mode == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
-        float scale = 0.5F;
+        matrices.translate(-0.5F, -0.5F, -0.5F);
 
         switch (mode) {
             case GUI:
-                matrices.translate(1.65F, 0.5F, 0.5F);
                 matrices.scale(0.5F, 0.5F, 0.5F);
-                matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(-30));
+                matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(45));
                 break;
             case FIRST_PERSON_RIGHT_HAND:
             case FIRST_PERSON_LEFT_HAND:
-                matrices.translate(leftHand ? -1.0F : 1.0F, 0.7F, 0.5F);
                 matrices.scale(0.4F, 0.4F, 0.4F);
-                matrices.mulPose(com.mojang.math.Axis.YP.rotationDegrees(35));
                 break;
             case THIRD_PERSON_RIGHT_HAND:
             case THIRD_PERSON_LEFT_HAND:
-                matrices.translate(leftHand ? -0.8F : 0.8F, 2.0F, 0.3F);
-                matrices.scale(0.3F, 0.3F, 0.3F);
+                matrices.scale(0.4F, 0.4F, 0.4F);
                 break;
             case GROUND:
-                matrices.translate(0.5F, 0.5F, 0.5F);
                 matrices.scale(0.3F, 0.3F, 0.3F);
                 break;
             case FIXED:
-                matrices.translate(-1.0F, 0.0F, -1.0F);
+                matrices.scale(0.5F, 0.5F, 0.5F);
                 break;
             case HEAD:
-                matrices.translate(-1.05F, 1.0F, -1.0F);
-                matrices.scale(0.6F, 0.6F, 0.6F);
+                matrices.scale(0.5F, 0.5F, 0.5F);
                 break;
             case NONE:
-                matrices.translate(-1.05F, 1.0F, -1.0F);
                 break;
         }
     }
