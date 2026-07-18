@@ -2,7 +2,10 @@ package dev._0yh.adachireiNui;
 
 import dev._0yh.adachireiNui.block.AdachireiNuiBlock;
 import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
+import dev._0yh.adachireiNui.client.render.AdachireiNuiBlockEntityRenderer;
+import dev._0yh.adachireiNui.item.AdachireiNuiBlockItem;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -35,10 +38,17 @@ public class AdachireiNui {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MOD_ID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), MOD_ID);
 
+    public static final ResourceLocation MODEL_ADACHI_NUI = new ResourceLocation(MOD_ID, "custom/adachi-nui.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_NEW = new ResourceLocation(MOD_ID, "custom/adachi-nui_new.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = new ResourceLocation(MOD_ID, "custom/adachi-nui_vocaloid.json");
+
     public static final RegistryObject<Block> ADACHI_BLOCK_4 = registerBlock("adachirei-nui_box", Shapes.block(), false);
-    public static final RegistryObject<Block> ADACHI_BLOCK_5 = registerBlock("adachi-nui", ADACHI_NUI_SHAPE, true);
-    public static final RegistryObject<Block> ADACHI_BLOCK_6 = registerBlock("adachi-nui_new", ADACHI_NUI_SHAPE, true);
-    public static final RegistryObject<Block> ADACHI_BLOCK_7 = registerBlock("adachi-nui_vocaloid", ADACHI_NUI_SHAPE, true);
+    public static final RegistryObject<Block> ADACHI_BLOCK_5 = registerCustomItemBlock(
+            "adachi-nui", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI);
+    public static final RegistryObject<Block> ADACHI_BLOCK_6 = registerCustomItemBlock(
+            "adachi-nui_new", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI_NEW);
+    public static final RegistryObject<Block> ADACHI_BLOCK_7 = registerCustomItemBlock(
+            "adachi-nui_vocaloid", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI_VOCALOID);
 
     public static final Supplier<BlockEntityType<AdachireiNuiBlockEntity>> ADACHIREI_NUI_BLOCK_ENTITY_TYPE = BLOCK_ENTITIES.register("adachirei-nui",
             () -> BlockEntityType.Builder.of(AdachireiNuiBlockEntity::new,
@@ -82,6 +92,13 @@ public class AdachireiNui {
     private static RegistryObject<Block> registerBlock(String name, VoxelShape shape, boolean renderAsBlockEntity) {
         RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(shape, renderAsBlockEntity));
         ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return block;
+    }
+
+    private static RegistryObject<Block> registerCustomItemBlock(
+            String name, VoxelShape shape, boolean renderAsBlockEntity, ResourceLocation modelId) {
+        RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(shape, renderAsBlockEntity));
+        ITEMS.register(name, () -> new AdachireiNuiBlockItem(block.get(), new Item.Properties(), modelId));
         return block;
     }
 }
