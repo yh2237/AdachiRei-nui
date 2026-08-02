@@ -14,9 +14,9 @@ description='Adds Adachi Rei plushies to Minecraft'
 displayURL="https://modrinth.com/mod/adachirei-nui"
 updateJSONURL=""
 [[dependencies.adachirei_nui]]
-    modId="forge"
+    modId="neoforge"
     mandatory=true
-    versionRange="[50,)"
+    versionRange="[20.6,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.adachirei_nui]]
