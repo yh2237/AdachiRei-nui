@@ -10,12 +10,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import org.joml.Vector3f;
 
-import java.util.function.Consumer;
 
 public class AdachireiNuiBlockItem extends BlockItem {
     private static final Vector3f OFFSET_GUI = new Vector3f(1.65F, 0.5F, 0.5F);
@@ -47,9 +46,8 @@ public class AdachireiNuiBlockItem extends BlockItem {
         this.modelId = modelId;
     }
 
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
+    public IClientItemExtensions createClientExtensions() {
+        return new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 
             @Override
@@ -73,7 +71,7 @@ public class AdachireiNuiBlockItem extends BlockItem {
                 }
                 return renderer;
             }
-        });
+        };
     }
 
     private static ItemTransform transform(float rotationX, float rotationY, float rotationZ,
