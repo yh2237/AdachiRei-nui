@@ -1,97 +1,52 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'eclipse'
     id 'idea'
-    id 'net.minecraftforge.gradle' version '[7.0.3,8)'
+    id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
 
 version = project.mod_version
-
-base {
-    archivesName = project.archives_base_name
-}
-
+base { archivesName = project.archives_base_name }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-minecraft {
-    mappings channel: 'official', version: project.minecraft_version
-
-    runs {
-        configureEach {
-            workingDir = layout.projectDirectory.dir('run')
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            systemProperty 'forge.logging.console.level', 'debug'
-
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        register('client') {
-            systemProperty 'forge.enabledGameTestNamespaces', mod_id
-        }
-
-        register('server') {
-            systemProperty 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
-        }
-
-        register('data') {
-            workingDir = layout.projectDirectory.dir('run-data')
-            args '--mod', mod_id, '--all', '--output', file('src/main/generated/'), '--existing', file('src/main/resources/')
-        }
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+        modSource project.sourceSets.main
+    }
+    client {}
+    server { programArgument '--nogui' }
+    data {
+        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/main/generated/').absolutePath, '--existing', file('src/main/resources/').absolutePath
     }
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDir 'src/main/generated'
-        }
-    }
-}
-
-processResources {
-    inputs.property "mod_version", project.mod_version
-    filteringCharset "UTF-8"
-    filesMatching("META-INF/mods.toml") {
-        expand "mod_version": project.mod_version
-    }
-}
-
-repositories {
-    minecraft.mavenizer(it)
-    maven fg.forgeMaven
-    maven fg.minecraftLibsMaven
-    mavenCentral()
-    maven {
-        url "https://cursemaven.com"
-    }
-}
+sourceSets.main.resources { srcDir 'src/main/generated' }
+repositories { maven { url 'https://cursemaven.com' } }
 
 dependencies {
-    implementation minecraft.dependency("net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
-    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    implementation "net.neoforged:neoforge:${project.neoforge_version}"
+}
+
+tasks.withType(ProcessResources).configureEach {
+    inputs.property 'mod_version', project.mod_version
+    filesMatching('META-INF/neoforge.mods.toml') { expand mod_version: project.mod_version }
 }
 
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
-                "Specification-Title"     : mod_id,
-                "Specification-Vendor"    : "yh",
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "yh",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "adachirei_nui.mixins.json"
+                'Specification-Title': mod_id,
+                'Specification-Vendor': 'yh',
+                'Specification-Version': '1',
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.jar.archiveVersion,
+                'Implementation-Vendor': 'yh',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'MixinConfigs': 'adachirei_nui.mixins.json'
         ])
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
