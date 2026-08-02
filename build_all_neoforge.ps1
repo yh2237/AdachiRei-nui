@@ -4,5 +4,5 @@ $versions = @(
     "1.21.7", "1.21.8", "1.21.9", "1.21.10", "1.21.11"
 )
 
-& "$PSScriptRoot\run_all_branches.ps1" -Loader fabric -Task build -Versions $versions
+& "$PSScriptRoot\run_all_branches.ps1" -Loader neoforge -Task build -Versions $versions
 exit $LASTEXITCODE

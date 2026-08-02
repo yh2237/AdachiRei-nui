@@ -1,45 +1,8 @@
-$originalBranch = git rev-parse --abbrev-ref HEAD
-$branches = @(
-    "fabric/1.20.1",
-    "fabric/1.20.2",
-    "fabric/1.20.3",
-    "fabric/1.20.4",
-    "fabric/1.20.5",
-    "fabric/1.20.6",
-    "fabric/1.21.1",
-    "fabric/1.21.2",
-    "fabric/1.21.3",
-    "fabric/1.21.6",
-    "fabric/1.21.7",
-    "fabric/1.21.8",
-    "fabric/1.21.9",
-    "fabric/1.21.10",
-    "fabric/1.21.11"
+$versions = @(
+    "1.20.1", "1.20.2", "1.20.3", "1.20.4", "1.20.5", "1.20.6",
+    "1.21.1", "1.21.2", "1.21.3", "1.21.4", "1.21.5", "1.21.6",
+    "1.21.7", "1.21.8", "1.21.9", "1.21.10", "1.21.11"
 )
 
-foreach ($b in $branches) {
-    Write-Host "========================================" -ForegroundColor Cyan
-    Write-Host "  [$b]" -ForegroundColor Yellow
-    Write-Host "========================================" -ForegroundColor Cyan
-
-    git stash push -m "auto-stash" 2>$null
-    git checkout $b
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "FAILED: $b" -ForegroundColor Red
-        pause
-        exit 1
-    }
-
-    Write-Host "`nLaunching Minecraft $b ..." -ForegroundColor Green
-    Write-Host "Close the game to proceed.`n" -ForegroundColor Green
-
-    & .\gradlew runClient
-    Write-Host "`nFinished $b`n" -ForegroundColor Green
-}
-
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  All done" -ForegroundColor Green
-Write-Host "========================================" -ForegroundColor Cyan
-git checkout $originalBranch
-git stash pop 2>$null
-pause
+& "$PSScriptRoot\run_all_branches.ps1" -Loader fabric -Task runClient -Versions $versions
+exit $LASTEXITCODE
