@@ -1,6 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "adachirei-nui",
+  "id": "adachirei_nui",
+  "provides": [
+    "adachirei-nui"
+  ],
   "version": "${version}",
   "name": "AdachiRei-nui",
   "description": "Adds Adachi Rei plushies to Minecraft",
