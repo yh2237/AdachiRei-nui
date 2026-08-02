@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[48,)"
+loaderVersion="[1,)"
 license="MIT"
 issueTrackerURL="https://github.com/yh2237/AdachiRei-nui/issues"
 
@@ -14,9 +14,9 @@ description='Adds Adachi Rei plushies to Minecraft'
 displayURL="https://modrinth.com/mod/adachirei-nui"
 updateJSONURL=""
 [[dependencies.adachirei_nui]]
-    modId="forge"
+    modId="neoforge"
     mandatory=true
-    versionRange="[48,)"
+    versionRange="[20.2,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.adachirei_nui]]
