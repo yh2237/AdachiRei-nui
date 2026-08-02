@@ -73,12 +73,15 @@ processResources {
 
 repositories {
     maven {
+        url 'https://maven.neoforged.net/releases'
+    }
+    maven {
         url "https://cursemaven.com"
     }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+    minecraft "net.neoforged:forge:${project.minecraft_version}-${project.neoforge_version}"
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
 
