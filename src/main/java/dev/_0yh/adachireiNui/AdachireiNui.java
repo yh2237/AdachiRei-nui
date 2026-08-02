@@ -3,7 +3,6 @@ package dev._0yh.adachireiNui;
 import dev._0yh.adachireiNui.block.AdachireiNuiBlock;
 import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
 import dev._0yh.adachireiNui.client.render.AdachireiNuiBlockEntityRenderer;
-import dev._0yh.adachireiNui.item.AdachireiNuiBlockItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -47,12 +46,12 @@ public class AdachireiNui {
     public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = ResourceLocation.fromNamespaceAndPath(CONTENT_NAMESPACE, "custom/adachi-nui_vocaloid.json");
 
     public static final RegistryObject<Block> ADACHI_BLOCK_4 = registerBlock("adachirei-nui_box", Shapes.block(), false);
-    public static final RegistryObject<Block> ADACHI_BLOCK_5 = registerCustomItemBlock(
-            "adachi-nui", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI);
-    public static final RegistryObject<Block> ADACHI_BLOCK_6 = registerCustomItemBlock(
-            "adachi-nui_new", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI_NEW);
-    public static final RegistryObject<Block> ADACHI_BLOCK_7 = registerCustomItemBlock(
-            "adachi-nui_vocaloid", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI_VOCALOID);
+    public static final RegistryObject<Block> ADACHI_BLOCK_5 = registerBlock(
+            "adachi-nui", ADACHI_NUI_SHAPE, true);
+    public static final RegistryObject<Block> ADACHI_BLOCK_6 = registerBlock(
+            "adachi-nui_new", ADACHI_NUI_SHAPE, true);
+    public static final RegistryObject<Block> ADACHI_BLOCK_7 = registerBlock(
+            "adachi-nui_vocaloid", ADACHI_NUI_SHAPE, true);
 
     public static final Supplier<BlockEntityType<AdachireiNuiBlockEntity>> ADACHIREI_NUI_BLOCK_ENTITY_TYPE = BLOCK_ENTITIES.register("adachirei_nui",
             () -> new BlockEntityType<>(AdachireiNuiBlockEntity::new,
@@ -99,10 +98,4 @@ public class AdachireiNui {
         return block;
     }
 
-    private static RegistryObject<Block> registerCustomItemBlock(
-            String name, VoxelShape shape, boolean renderAsBlockEntity, ResourceLocation modelId) {
-        RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(shape, renderAsBlockEntity));
-        ITEMS.register(name, () -> new AdachireiNuiBlockItem(block.get(), new Item.Properties(), modelId));
-        return block;
-    }
 }
