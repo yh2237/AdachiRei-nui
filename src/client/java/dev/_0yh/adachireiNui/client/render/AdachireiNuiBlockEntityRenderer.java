@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.Map;
 
 public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<AdachireiNuiBlockEntity> {
-    public static final Identifier MODEL_ADACHI_NUI = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui.json");
-    public static final Identifier MODEL_ADACHI_NUI_NEW = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_new.json");
-    public static final Identifier MODEL_ADACHI_NUI_VOCALOID = Identifier.of(AdachireiNui.MOD_ID, "models/block/adachi-nui_vocaloid.json");
+    public static final Identifier MODEL_ADACHI_NUI = Identifier.of(AdachireiNui.CONTENT_NAMESPACE, "models/block/adachi-nui.json");
+    public static final Identifier MODEL_ADACHI_NUI_NEW = Identifier.of(AdachireiNui.CONTENT_NAMESPACE, "models/block/adachi-nui_new.json");
+    public static final Identifier MODEL_ADACHI_NUI_VOCALOID = Identifier.of(AdachireiNui.CONTENT_NAMESPACE, "models/block/adachi-nui_vocaloid.json");
 
     private static final Map<Identifier, ParsedModel> MODEL_CACHE = new HashMap<>();
 

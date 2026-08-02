@@ -20,14 +20,15 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 
 public class AdachireiNui implements ModInitializer {
-        public static final String MOD_ID = "adachirei-nui";
+        public static final String MOD_ID = "adachirei_nui";
+        public static final String CONTENT_NAMESPACE = "adachirei-nui";
 
-        public static final Identifier BLOCK_ID_4 = Identifier.of(MOD_ID, "adachirei-nui_box");
-        public static final Identifier BLOCK_ID_5 = Identifier.of(MOD_ID, "adachi-nui");
-        public static final Identifier BLOCK_ID_6 = Identifier.of(MOD_ID, "adachi-nui_new");
-        public static final Identifier BLOCK_ID_7 = Identifier.of(MOD_ID, "adachi-nui_vocaloid");
-        public static final Identifier BLOCK_ENTITY_ID = Identifier.of(MOD_ID, "adachirei_nui");
-        public static final Identifier ITEM_GROUP_ID = Identifier.of(MOD_ID, "item_group");
+        public static final Identifier BLOCK_ID_4 = Identifier.of(CONTENT_NAMESPACE, "adachirei-nui_box");
+        public static final Identifier BLOCK_ID_5 = Identifier.of(CONTENT_NAMESPACE, "adachi-nui");
+        public static final Identifier BLOCK_ID_6 = Identifier.of(CONTENT_NAMESPACE, "adachi-nui_new");
+        public static final Identifier BLOCK_ID_7 = Identifier.of(CONTENT_NAMESPACE, "adachi-nui_vocaloid");
+        public static final Identifier BLOCK_ENTITY_ID = Identifier.of(CONTENT_NAMESPACE, "adachirei_nui");
+        public static final Identifier ITEM_GROUP_ID = Identifier.of(CONTENT_NAMESPACE, "item_group");
 
         private static final VoxelShape ADACHI_NUI_SHAPE = VoxelShapes.cuboid(0.2, 0, 0.2, 0.8, 0.9, 0.9);
 
@@ -56,7 +57,7 @@ public class AdachireiNui implements ModInitializer {
 
                 Registry.register(Registries.ITEM_GROUP, RegistryKey.of(RegistryKeys.ITEM_GROUP, ITEM_GROUP_ID),
                                 FabricItemGroup.builder()
-                                                .displayName(Text.translatable("itemGroup." + MOD_ID))
+                                                .displayName(Text.translatable("itemGroup." + CONTENT_NAMESPACE))
                                                 .icon(() -> new ItemStack(ADACHI_BLOCK_5))
                                                 .entries((context, entries) -> {
                                                         entries.add(ADACHI_BLOCK_4);
