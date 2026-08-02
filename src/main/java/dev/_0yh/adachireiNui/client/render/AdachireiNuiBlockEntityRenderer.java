@@ -10,7 +10,7 @@ import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
@@ -43,7 +43,7 @@ import java.util.Optional;
 
 public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<AdachireiNuiBlockEntity, AdachireiNuiRenderState> {
 
-    private static final Map<ResourceLocation, ParsedModel> MODEL_CACHE = new HashMap<>();
+    private static final Map<Identifier, ParsedModel> MODEL_CACHE = new HashMap<>();
 
     public AdachireiNuiBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
     }
@@ -68,7 +68,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         renderParsedModel(state.modelId, state.facing, matrices, queue, state.lightCoords);
     }
 
-    public static void renderParsedModel(ResourceLocation modelId, Direction facing, PoseStack matrices, SubmitNodeCollector queue, int light) {
+    public static void renderParsedModel(Identifier modelId, Direction facing, PoseStack matrices, SubmitNodeCollector queue, int light) {
         ParsedModel model = getOrLoadModel(modelId);
         if (model == null) {
             return;
@@ -91,7 +91,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 Direction faceDir = faceEntry.getKey();
                 ModelFace face = faceEntry.getValue();
 
-                ResourceLocation textureId = resolveTexture(model, face.textureRef);
+                Identifier textureId = resolveTexture(model, face.textureRef);
                 if (textureId == null) {
                     continue;
                 }
@@ -106,7 +106,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 float[] uv1 = faceUv(face.uv, face.rotation, 1);
                 float[] uv2 = faceUv(face.uv, face.rotation, 2);
                 float[] uv3 = faceUv(face.uv, face.rotation, 3);
-                queue.submitCustomGeometry(matrices, RenderType.entityCutout(textureId), (entry, consumer) -> {
+                queue.submitCustomGeometry(matrices, RenderTypes.entityCutout(textureId), (entry, consumer) -> {
                     Matrix4f position = entry.pose();
                     vertex(consumer, position, entry, vertices[0], uv0[0], uv0[1], light, OverlayTexture.NO_OVERLAY, normal);
                     vertex(consumer, position, entry, vertices[1], uv1[0], uv1[1], light, OverlayTexture.NO_OVERLAY, normal);
@@ -119,7 +119,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         matrices.popPose();
     }
 
-    private static ResourceLocation modelIdFor(Block block) {
+    private static Identifier modelIdFor(Block block) {
         if (block == AdachireiNui.ADACHI_BLOCK_5.get()) {
             return AdachireiNui.MODEL_ADACHI_NUI;
         }
@@ -132,7 +132,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         return null;
     }
 
-    public static ParsedModel getOrLoadModel(ResourceLocation modelId) {
+    public static ParsedModel getOrLoadModel(Identifier modelId) {
         ParsedModel cached = MODEL_CACHE.get(modelId);
         if (cached != null) {
             return cached;
@@ -155,14 +155,14 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private static ParsedModel parseModel(JsonObject root) {
-        Map<String, ResourceLocation> textures = new HashMap<>();
+        Map<String, Identifier> textures = new HashMap<>();
         JsonObject texturesObject = root.getAsJsonObject("textures");
         if (texturesObject != null) {
             for (Map.Entry<String, JsonElement> textureEntry : texturesObject.entrySet()) {
                 String key = textureEntry.getKey();
                 String value = textureEntry.getValue().getAsString();
                 if (!value.startsWith("#")) {
-                    textures.put(key, toDirectTextureId(ResourceLocation.fromNamespaceAndPath(value.split(":")[0], value.split(":")[1])));
+                    textures.put(key, toDirectTextureId(Identifier.fromNamespaceAndPath(value.split(":")[0], value.split(":")[1])));
                 }
             }
         }
@@ -353,13 +353,13 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         };
     }
 
-    private static ResourceLocation resolveTexture(ParsedModel model, String textureRef) {
+    private static Identifier resolveTexture(ParsedModel model, String textureRef) {
         String key = textureRef.startsWith("#") ? textureRef.substring(1) : textureRef;
         return model.textures.get(key);
     }
 
-    private static ResourceLocation toDirectTextureId(ResourceLocation modelTextureId) {
-        return ResourceLocation.fromNamespaceAndPath(modelTextureId.getNamespace(), "textures/" + modelTextureId.getPath() + ".png");
+    private static Identifier toDirectTextureId(Identifier modelTextureId) {
+        return Identifier.fromNamespaceAndPath(modelTextureId.getNamespace(), "textures/" + modelTextureId.getPath() + ".png");
     }
 
     private static Vector3f readVec3(JsonArray array) {
@@ -370,7 +370,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
         X, Y, Z
     }
 
-    private record ParsedModel(Map<String, ResourceLocation> textures, List<ModelElement> elements, Map<String, DisplayData> display) {
+    private record ParsedModel(Map<String, Identifier> textures, List<ModelElement> elements, Map<String, DisplayData> display) {
     }
 
     private record DisplayData(Vector3f rotation, Vector3f translation, Vector3f scale) {

@@ -4,6 +4,7 @@ import dev._0yh.adachireiNui.client.AdachireiSplashFetcher;
 import dev._0yh.adachireiNui.config.AdachireiConfig;
 import net.minecraft.client.gui.components.SplashRenderer;
 import net.minecraft.client.resources.SplashManager;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,7 +16,7 @@ public class SplashManagerMixin {
     private void adachireiNui$getSplash(CallbackInfoReturnable<SplashRenderer> callback) {
         String apiText = AdachireiSplashFetcher.consumeCachedSplash();
         if (apiText != null) {
-            callback.setReturnValue(new SplashRenderer(apiText));
+            callback.setReturnValue(new SplashRenderer(Component.literal(apiText)));
         }
 
         if (AdachireiConfig.get().enableCustomSplash) {
