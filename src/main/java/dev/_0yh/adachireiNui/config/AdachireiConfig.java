@@ -1,15 +1,15 @@
 package dev._0yh.adachireiNui.config;
 
 import dev._0yh.adachireiNui.AdachireiNui;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
 
 public class AdachireiConfig {
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    private static final ForgeConfigSpec SPEC;
+    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    private static final ModConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.BooleanValue enableCustomSplash;
+    public static final ModConfigSpec.BooleanValue enableCustomSplash;
 
     static {
         BUILDER.push("general");
