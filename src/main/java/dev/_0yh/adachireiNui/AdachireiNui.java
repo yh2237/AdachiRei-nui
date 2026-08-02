@@ -25,6 +25,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Set;
 import java.util.function.Supplier;
 
 @Mod(AdachireiNui.MOD_ID)
@@ -54,8 +55,8 @@ public class AdachireiNui {
             "adachi-nui_vocaloid", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI_VOCALOID);
 
     public static final Supplier<BlockEntityType<AdachireiNuiBlockEntity>> ADACHIREI_NUI_BLOCK_ENTITY_TYPE = BLOCK_ENTITIES.register("adachirei_nui",
-            () -> BlockEntityType.Builder.of(AdachireiNuiBlockEntity::new,
-                    ADACHI_BLOCK_5.get(), ADACHI_BLOCK_6.get(), ADACHI_BLOCK_7.get()).build(null));
+            () -> new BlockEntityType<>(AdachireiNuiBlockEntity::new,
+                    Set.of(ADACHI_BLOCK_5.get(), ADACHI_BLOCK_6.get(), ADACHI_BLOCK_7.get())));
 
     public static final Supplier<CreativeModeTab> ADACHIREI_ITEM_GROUP = CREATIVE_MODE_TABS.register("item_group",
             () -> CreativeModeTab.builder()
