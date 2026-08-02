@@ -29,18 +29,21 @@ import java.util.function.Supplier;
 
 @Mod(AdachireiNui.MOD_ID)
 public class AdachireiNui {
+    // Forge mod ids cannot contain hyphens. Content ids can, so keep the
+    // established Fabric namespace to make commands and saved registry ids portable.
     public static final String MOD_ID = "adachirei_nui";
+    public static final String CONTENT_NAMESPACE = "adachirei-nui";
 
     private static final VoxelShape ADACHI_NUI_SHAPE = Shapes.box(0.2, 0, 0.2, 0.8, 0.9, 0.9);
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MOD_ID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MOD_ID);
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CONTENT_NAMESPACE);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CONTENT_NAMESPACE);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CONTENT_NAMESPACE);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), CONTENT_NAMESPACE);
 
-    public static final ResourceLocation MODEL_ADACHI_NUI = new ResourceLocation(MOD_ID, "custom/adachi-nui.json");
-    public static final ResourceLocation MODEL_ADACHI_NUI_NEW = new ResourceLocation(MOD_ID, "custom/adachi-nui_new.json");
-    public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = new ResourceLocation(MOD_ID, "custom/adachi-nui_vocaloid.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI = new ResourceLocation(CONTENT_NAMESPACE, "custom/adachi-nui.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_NEW = new ResourceLocation(CONTENT_NAMESPACE, "custom/adachi-nui_new.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = new ResourceLocation(CONTENT_NAMESPACE, "custom/adachi-nui_vocaloid.json");
 
     public static final RegistryObject<Block> ADACHI_BLOCK_4 = registerBlock("adachirei-nui_box", Shapes.block(), false);
     public static final RegistryObject<Block> ADACHI_BLOCK_5 = registerCustomItemBlock(
@@ -50,13 +53,13 @@ public class AdachireiNui {
     public static final RegistryObject<Block> ADACHI_BLOCK_7 = registerCustomItemBlock(
             "adachi-nui_vocaloid", ADACHI_NUI_SHAPE, true, MODEL_ADACHI_NUI_VOCALOID);
 
-    public static final Supplier<BlockEntityType<AdachireiNuiBlockEntity>> ADACHIREI_NUI_BLOCK_ENTITY_TYPE = BLOCK_ENTITIES.register("adachirei-nui",
+    public static final Supplier<BlockEntityType<AdachireiNuiBlockEntity>> ADACHIREI_NUI_BLOCK_ENTITY_TYPE = BLOCK_ENTITIES.register("adachirei_nui",
             () -> BlockEntityType.Builder.of(AdachireiNuiBlockEntity::new,
                     ADACHI_BLOCK_5.get(), ADACHI_BLOCK_6.get(), ADACHI_BLOCK_7.get()).build(null));
 
     public static final Supplier<CreativeModeTab> ADACHIREI_ITEM_GROUP = CREATIVE_MODE_TABS.register("item_group",
             () -> CreativeModeTab.builder()
-                    .title(net.minecraft.network.chat.Component.translatable("itemGroup." + MOD_ID))
+                    .title(net.minecraft.network.chat.Component.translatable("itemGroup." + CONTENT_NAMESPACE))
                     .icon(() -> new ItemStack(ADACHI_BLOCK_5.get()))
                     .displayItems((params, output) -> {
                         output.accept(ADACHI_BLOCK_4.get());

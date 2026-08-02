@@ -2,6 +2,7 @@ package dev._0yh.adachireiNui.client;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dev._0yh.adachireiNui.AdachireiNui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AdachireiSplashFetcher {
-    private static final Logger LOGGER = LoggerFactory.getLogger("adachirei_nui");
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdachireiNui.MOD_ID);
     private static final String API_URL = "https://adachidb.net/api/posts/random";
     private static final Duration TIMEOUT = Duration.ofSeconds(5);
 

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "adachirei-nui:block/adachirei-nui_box", "y": 180 },
+    "facing=south": { "model": "adachirei-nui:block/adachirei-nui_box" },
+    "facing=east":  { "model": "adachirei-nui:block/adachirei-nui_box", "y": 270 },
+    "facing=west":  { "model": "adachirei-nui:block/adachirei-nui_box", "y": 90 }
+  }
+}

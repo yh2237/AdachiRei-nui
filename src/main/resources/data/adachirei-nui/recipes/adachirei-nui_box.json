@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HHH",
+    "HAH",
+    "HHH"
+  ],
+  "key": {
+    "A": { "item": "adachirei-nui:adachi-nui" },
+    "H": { "item": "minecraft:white_wool" }
+  },
+  "result": {
+    "item": "adachirei-nui:adachirei-nui_box",
+    "count": 8
+  }
+}

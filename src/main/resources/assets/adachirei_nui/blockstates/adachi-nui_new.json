@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "adachirei_nui:block/adachi-nui_new_particle_proxy"},
-    "facing=south": { "model": "adachirei_nui:block/adachi-nui_new_particle_proxy", "y": 180 },
-    "facing=east":  { "model": "adachirei_nui:block/adachi-nui_new_particle_proxy", "y": 90 },
-    "facing=west":  { "model": "adachirei_nui:block/adachi-nui_new_particle_proxy", "y": 270 }
-  }
-}
