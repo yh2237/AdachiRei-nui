@@ -31,7 +31,7 @@ dependencies {
 
 tasks.withType(ProcessResources).configureEach {
     inputs.property 'mod_version', project.mod_version
-    filesMatching('META-INF/mods.toml') { expand mod_version: project.mod_version }
+    filesMatching('META-INF/neoforge.mods.toml') { expand mod_version: project.mod_version }
 }
 
 tasks.named('jar', Jar).configure {
