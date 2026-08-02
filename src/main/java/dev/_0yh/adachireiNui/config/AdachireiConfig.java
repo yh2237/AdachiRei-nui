@@ -2,8 +2,8 @@ package dev._0yh.adachireiNui.config;
 
 import dev._0yh.adachireiNui.AdachireiNui;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public class AdachireiConfig {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -20,8 +20,8 @@ public class AdachireiConfig {
         SPEC = BUILDER.build();
     }
 
-    public static void init() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, SPEC);
+    public static void init(FMLJavaModLoadingContext context) {
+        context.registerConfig(ModConfig.Type.CLIENT, SPEC);
     }
 
     public static boolean getEnableCustomSplash() {

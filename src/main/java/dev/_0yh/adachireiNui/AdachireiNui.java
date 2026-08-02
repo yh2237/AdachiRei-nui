@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -69,19 +68,19 @@ public class AdachireiNui {
                     })
                     .build());
 
-    public AdachireiNui() {
-        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public AdachireiNui(FMLJavaModLoadingContext context) {
+        var modBusGroup = context.getModBusGroup();
 
-        BLOCKS.register(modBus);
-        ITEMS.register(modBus);
-        BLOCK_ENTITIES.register(modBus);
-        CREATIVE_MODE_TABS.register(modBus);
+        BLOCKS.register(modBusGroup);
+        ITEMS.register(modBusGroup);
+        BLOCK_ENTITIES.register(modBusGroup);
+        CREATIVE_MODE_TABS.register(modBusGroup);
 
-        dev._0yh.adachireiNui.config.AdachireiConfig.init();
+        dev._0yh.adachireiNui.config.AdachireiConfig.init(context);
 
-        modBus.addListener(this::commonSetup);
+        FMLCommonSetupEvent.getBus(modBusGroup).addListener(this::commonSetup);
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            modBus.addListener(this::clientSetup);
+            FMLClientSetupEvent.getBus(modBusGroup).addListener(this::clientSetup);
         }
     }
 
