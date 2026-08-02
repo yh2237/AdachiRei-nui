@@ -320,7 +320,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 .uv(u, v)
                 .overlayCoords(overlay == 0 ? OverlayTexture.NO_OVERLAY : overlay)
                 .uv2(light)
-                .normal(entry.normal(), normal.x, normal.y, normal.z);
+                .normal(entry, normal.x, normal.y, normal.z);
         consumer.endVertex();
     }
 

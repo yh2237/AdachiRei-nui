@@ -1,8 +1,8 @@
 plugins {
+    id 'java'
     id 'eclipse'
     id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'net.minecraftforge.gradle' version '[7.0.3,8)'
 }
 
 version = project.mod_version
@@ -11,21 +11,16 @@ base {
     archivesName = project.archives_base_name
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 minecraft {
     mappings channel: 'official', version: project.minecraft_version
 
-    copyIdeResources = true
-
     runs {
         configureEach {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            workingDir = layout.projectDirectory.dir('run')
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
 
             mods {
                 "${mod_id}" {
@@ -34,17 +29,17 @@ minecraft {
             }
         }
 
-        client {
-            property 'forge.enabledGameTestNamespaces', mod_id
+        register('client') {
+            systemProperty 'forge.enabledGameTestNamespaces', mod_id
         }
 
-        server {
-            property 'forge.enabledGameTestNamespaces', mod_id
+        register('server') {
+            systemProperty 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
         }
 
-        data {
-            workingDirectory project.file('run-data')
+        register('data') {
+            workingDir = layout.projectDirectory.dir('run-data')
             args '--mod', mod_id, '--all', '--output', file('src/main/generated/'), '--existing', file('src/main/resources/')
         }
     }
@@ -58,11 +53,6 @@ sourceSets {
     }
 }
 
-mixin {
-    add sourceSets.main, "adachirei_nui.refmap.json"
-    config "adachirei_nui.mixins.json"
-}
-
 processResources {
     inputs.property "mod_version", project.mod_version
     filteringCharset "UTF-8"
@@ -72,13 +62,17 @@ processResources {
 }
 
 repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
     maven {
         url "https://cursemaven.com"
     }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+    implementation minecraft.dependency("net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}")
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
 
@@ -95,19 +89,9 @@ tasks.named('jar', Jar).configure {
                 "MixinConfigs"            : "adachirei_nui.mixins.json"
         ])
     }
-    finalizedBy 'reobfJar'
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-afterEvaluate {
-    def java17 = javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-
-    tasks.matching { it.name in ['runClient', 'runServer', 'runData'] }.configureEach {
-        javaLauncher = java17
-    }
-}
