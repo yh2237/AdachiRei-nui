@@ -154,7 +154,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
                 String key = textureEntry.getKey();
                 String value = textureEntry.getValue().getAsString();
                 if (!value.startsWith("#")) {
-                    textures.put(key, toDirectTextureId(new ResourceLocation(value.split(":")[0], value.split(":")[1])));
+                    textures.put(key, toDirectTextureId(ResourceLocation.fromNamespaceAndPath(value.split(":")[0], value.split(":")[1])));
                 }
             }
         }
@@ -315,13 +315,12 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private static void vertex(VertexConsumer consumer, Matrix4f position, PoseStack.Pose entry, Vector3f vertex, float u, float v, int light, int overlay, Vector3f normal) {
-        consumer.vertex(position, vertex.x, vertex.y, vertex.z)
-                .color(255, 255, 255, 255)
-                .uv(u, v)
-                .overlayCoords(overlay == 0 ? OverlayTexture.NO_OVERLAY : overlay)
-                .uv2(light)
-                .normal(entry, normal.x, normal.y, normal.z);
-        consumer.endVertex();
+        consumer.addVertex(position, vertex.x, vertex.y, vertex.z)
+                .setColor(255, 255, 255, 255)
+                .setUv(u, v)
+                .setOverlay(overlay == 0 ? OverlayTexture.NO_OVERLAY : overlay)
+                .setLight(light)
+                .setNormal(entry, normal.x, normal.y, normal.z);
     }
 
     private static Direction directionByName(String name) {
@@ -352,7 +351,7 @@ public class AdachireiNuiBlockEntityRenderer implements BlockEntityRenderer<Adac
     }
 
     private static ResourceLocation toDirectTextureId(ResourceLocation modelTextureId) {
-        return new ResourceLocation(modelTextureId.getNamespace(), "textures/" + modelTextureId.getPath() + ".png");
+        return ResourceLocation.fromNamespaceAndPath(modelTextureId.getNamespace(), "textures/" + modelTextureId.getPath() + ".png");
     }
 
     private static Vector3f readVec3(JsonArray array) {

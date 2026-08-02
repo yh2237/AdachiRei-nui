@@ -41,9 +41,9 @@ public class AdachireiNui {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CONTENT_NAMESPACE);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), CONTENT_NAMESPACE);
 
-    public static final ResourceLocation MODEL_ADACHI_NUI = new ResourceLocation(CONTENT_NAMESPACE, "custom/adachi-nui.json");
-    public static final ResourceLocation MODEL_ADACHI_NUI_NEW = new ResourceLocation(CONTENT_NAMESPACE, "custom/adachi-nui_new.json");
-    public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = new ResourceLocation(CONTENT_NAMESPACE, "custom/adachi-nui_vocaloid.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI = ResourceLocation.fromNamespaceAndPath(CONTENT_NAMESPACE, "custom/adachi-nui.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_NEW = ResourceLocation.fromNamespaceAndPath(CONTENT_NAMESPACE, "custom/adachi-nui_new.json");
+    public static final ResourceLocation MODEL_ADACHI_NUI_VOCALOID = ResourceLocation.fromNamespaceAndPath(CONTENT_NAMESPACE, "custom/adachi-nui_vocaloid.json");
 
     public static final RegistryObject<Block> ADACHI_BLOCK_4 = registerBlock("adachirei-nui_box", Shapes.block(), false);
     public static final RegistryObject<Block> ADACHI_BLOCK_5 = registerCustomItemBlock(
