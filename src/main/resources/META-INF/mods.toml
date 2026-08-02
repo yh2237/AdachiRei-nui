@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[59,)"
+loaderVersion="[60,)"
 license="MIT"
 issueTrackerURL="https://github.com/yh2237/AdachiRei-nui/issues"
 
@@ -16,12 +16,12 @@ updateJSONURL=""
 [[dependencies.adachirei_nui]]
     modId="forge"
     mandatory=true
-    versionRange="[59,)"
+    versionRange="[60,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.adachirei_nui]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.21.9]"
+    versionRange="[1.21.10]"
     ordering="NONE"
     side="BOTH"
