@@ -102,10 +102,10 @@ try {
             $ErrorActionPreference = "Continue"
             if ($Task -eq "runClient") {
                 Write-Host "  Close Minecraft to continue to the next branch." -ForegroundColor Green
-                & .\gradlew.bat runClient --no-daemon
+                & .\gradlew.bat clean runClient --no-daemon
             } else {
                 $logFile = Join-Path $env:TEMP ("adachirei-nui-build-{0}-{1}.log" -f $Loader, $version)
-                & .\gradlew.bat build --no-daemon --console=plain *> $logFile
+                & .\gradlew.bat clean build --no-daemon --console=plain *> $logFile
             }
             $gradleExitCode = $LASTEXITCODE
 
@@ -113,8 +113,11 @@ try {
             # Gradle runClient task exit successfully. Inspect the game log so
             # those runs are reported as failures by this script.
             if ($Task -eq "runClient" -and $gradleExitCode -eq 0) {
-                $latestLog = Join-Path $worktreeDir "run\logs\latest.log"
-                if (Test-Path -LiteralPath $latestLog) {
+                $latestLog = @(
+                    (Join-Path $worktreeDir "run\logs\latest.log"),
+                    (Join-Path $worktreeDir "runs\client\logs\latest.log")
+                ) | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+                if ($latestLog) {
                     $loadingErrors = Select-String -LiteralPath $latestLog -Pattern @(
                         "constructed 0 mods",
                         "Failed to initialize mod containers",
