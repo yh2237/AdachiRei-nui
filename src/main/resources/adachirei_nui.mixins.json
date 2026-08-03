@@ -3,7 +3,6 @@
   "minVersion": "0.8",
   "package": "dev._0yh.adachireiNui.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "adachirei_nui.refmap.json",
   "client": [
     "client.SplashManagerMixin"
   ],
