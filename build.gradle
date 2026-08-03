@@ -111,3 +111,11 @@ afterEvaluate {
         javaLauncher = java17
     }
 }
+
+// ForgeGradle 6 run configurations need classes and resources in one
+// directory for modern Forge's Java module discovery.
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourceSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
+}
