@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
@@ -94,15 +95,18 @@ public class AdachireiNui {
     }
 
     private static RegistryObject<Block> registerBlock(String name, VoxelShape shape, boolean renderAsBlockEntity) {
-        RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(shape, renderAsBlockEntity));
-        ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(
+                shape, renderAsBlockEntity, BlockBehaviour.Properties.of().setId(BLOCKS.key(name))));
+        ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().setId(ITEMS.key(name))));
         return block;
     }
 
     private static RegistryObject<Block> registerCustomItemBlock(
             String name, VoxelShape shape, boolean renderAsBlockEntity, ResourceLocation modelId) {
-        RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(shape, renderAsBlockEntity));
-        ITEMS.register(name, () -> new AdachireiNuiBlockItem(block.get(), new Item.Properties(), modelId));
+        RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(
+                shape, renderAsBlockEntity, BlockBehaviour.Properties.of().setId(BLOCKS.key(name))));
+        ITEMS.register(name, () -> new AdachireiNuiBlockItem(
+                block.get(), new Item.Properties().setId(ITEMS.key(name)), modelId));
         return block;
     }
 }
