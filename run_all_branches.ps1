@@ -108,6 +108,28 @@ try {
                 & .\gradlew.bat build --no-daemon --console=plain *> $logFile
             }
             $gradleExitCode = $LASTEXITCODE
+
+            # Minecraft can show a mod-loading error screen and still let the
+            # Gradle runClient task exit successfully. Inspect the game log so
+            # those runs are reported as failures by this script.
+            if ($Task -eq "runClient" -and $gradleExitCode -eq 0) {
+                $latestLog = Join-Path $worktreeDir "run\logs\latest.log"
+                if (Test-Path -LiteralPath $latestLog) {
+                    $loadingErrors = Select-String -LiteralPath $latestLog -Pattern @(
+                        "constructed 0 mods",
+                        "Failed to initialize mod containers",
+                        "Caught exception during event",
+                        "ModLoadingException",
+                        "Could not execute entrypoint",
+                        "Loading errors encountered"
+                    )
+                    if ($loadingErrors) {
+                        Write-Host "  MOD LOADING ERROR" -ForegroundColor Red
+                        $loadingErrors | Select-Object -Last 20 | ForEach-Object { Write-Host "  $($_.Line)" -ForegroundColor DarkRed }
+                        $gradleExitCode = 1
+                    }
+                }
+            }
         }
         finally {
             $ErrorActionPreference = "Stop"
