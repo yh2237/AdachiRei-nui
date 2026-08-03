@@ -11,15 +11,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SplashManager.class)
 public class SplashManagerMixin {
-    @Inject(method = "getSplash", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = { "getSplash", "a" }, at = @At("HEAD"), cancellable = true, remap = false)
     private void adachireiNui$getSplash(CallbackInfoReturnable<SplashRenderer> callback) {
-        String apiText = AdachireiSplashFetcher.consumeCachedSplash();
-        if (apiText != null) {
-            callback.setReturnValue(new SplashRenderer(apiText));
+        if (!AdachireiConfig.get().enableCustomSplash) {
+            return;
         }
 
-        if (AdachireiConfig.get().enableCustomSplash) {
-            AdachireiSplashFetcher.fetchAsync();
+        String apiText = AdachireiSplashFetcher.awaitSplash();
+        if (apiText != null) {
+            callback.setReturnValue(new SplashRenderer(apiText));
         }
     }
 }
