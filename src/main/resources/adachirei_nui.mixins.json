@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "adachirei_nui.refmap.json",
   "client": [
-    "client.SplashManagerMixin"
+    "client.SplashManagerMixin",
+    "client.TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

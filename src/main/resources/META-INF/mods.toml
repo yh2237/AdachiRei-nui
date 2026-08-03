@@ -13,6 +13,10 @@ authors="yh"
 description='Adds Adachi Rei plushies to Minecraft'
 displayURL="https://modrinth.com/mod/adachirei-nui"
 updateJSONURL=""
+
+[[mixins]]
+config="adachirei_nui.mixins.json"
+
 [[dependencies.adachirei_nui]]
     modId="forge"
     mandatory=true
