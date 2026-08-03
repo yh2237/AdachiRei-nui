@@ -4,6 +4,8 @@ import dev._0yh.adachireiNui.block.AdachireiNuiBlock;
 import dev._0yh.adachireiNui.block.entity.AdachireiNuiBlockEntity;
 import dev._0yh.adachireiNui.client.render.AdachireiNuiBlockEntityRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
@@ -94,9 +97,21 @@ public class AdachireiNui {
     }
 
     private static Supplier<Block> registerBlock(String name, VoxelShape shape, boolean renderAsBlockEntity) {
-        Supplier<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(shape, renderAsBlockEntity));
-        ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        Supplier<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(
+                shape, renderAsBlockEntity, BlockBehaviour.Properties.of().setId(blockKey(name))));
+        ITEMS.register(name, () -> new BlockItem(
+                block.get(), new Item.Properties().setId(itemKey(name))));
         return block;
+    }
+
+    private static ResourceKey<Block> blockKey(String name) {
+        return ResourceKey.create(Registries.BLOCK,
+                ResourceLocation.fromNamespaceAndPath(CONTENT_NAMESPACE, name));
+    }
+
+    private static ResourceKey<Item> itemKey(String name) {
+        return ResourceKey.create(Registries.ITEM,
+                ResourceLocation.fromNamespaceAndPath(CONTENT_NAMESPACE, name));
     }
 
 }
