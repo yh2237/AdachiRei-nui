@@ -21,6 +21,7 @@ minecraft {
             workingDir = layout.projectDirectory.dir('run')
             systemProperty 'forge.logging.markers', 'REGISTRIES'
             systemProperty 'forge.logging.console.level', 'debug'
+            args '--mixin', 'adachirei_nui.mixins.json'
 
         }
 
