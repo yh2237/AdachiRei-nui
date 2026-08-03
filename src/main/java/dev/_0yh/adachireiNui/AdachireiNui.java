@@ -21,6 +21,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.Set;
@@ -69,7 +70,6 @@ public class AdachireiNui {
                     .build());
 
     public AdachireiNui(IEventBus modBus, ModContainer modContainer) {
-
         BLOCKS.register(modBus);
         ITEMS.register(modBus);
         BLOCK_ENTITIES.register(modBus);
@@ -79,6 +79,10 @@ public class AdachireiNui {
 
         modBus.addListener(this::commonSetup);
         if (FMLEnvironment.dist == Dist.CLIENT) {
+            modContainer.registerExtensionPoint(
+                    IConfigScreenFactory.class,
+                    (IConfigScreenFactory) (container, parent) ->
+                            new dev._0yh.adachireiNui.client.AdachireiConfigScreen(parent));
             modBus.addListener(this::clientSetup);
             modBus.addListener(dev._0yh.adachireiNui.client.AdachireiNuiClient::onRegisterClientExtensions);
         }

@@ -29,6 +29,11 @@ public class AdachireiConfig {
         return enableCustomSplash.get();
     }
 
+    public static void setEnableCustomSplash(boolean value) {
+        enableCustomSplash.set(value);
+        SPEC.save();
+    }
+
     public static ConfigValues get() {
         return new ConfigValues();
     }
