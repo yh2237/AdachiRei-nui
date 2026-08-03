@@ -64,9 +64,7 @@ public class AdachireiSplashFetcher {
         });
     }
 
-    public static String consumeCachedSplash() {
-        String text = cachedSplash.getAndSet(null);
-        pendingFetch.set(null);
-        return text;
+    public static String getCachedSplash() {
+        return cachedSplash.get();
     }
 }
