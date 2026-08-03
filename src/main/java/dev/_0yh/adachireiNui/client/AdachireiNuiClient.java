@@ -7,11 +7,8 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
-@OnlyIn(Dist.CLIENT)
 public class AdachireiNuiClient {
 
     public static void onClientSetup(final FMLClientSetupEvent event) {
