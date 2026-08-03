@@ -15,7 +15,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -82,6 +84,10 @@ public class AdachireiNui {
 
         modBus.addListener(this::commonSetup);
         if (FMLEnvironment.dist == Dist.CLIENT) {
+            ModLoadingContext.get().registerExtensionPoint(
+                    ConfigScreenHandler.ConfigScreenFactory.class,
+                    () -> new ConfigScreenHandler.ConfigScreenFactory(
+                            dev._0yh.adachireiNui.client.AdachireiConfigScreen::new));
             modBus.addListener(this::clientSetup);
         }
     }
@@ -96,7 +102,9 @@ public class AdachireiNui {
     private static RegistryObject<Block> registerBlock(String name, VoxelShape shape, boolean renderAsBlockEntity) {
         RegistryObject<Block> block = BLOCKS.register(name, () -> new AdachireiNuiBlock(
                 shape, renderAsBlockEntity, BlockBehaviour.Properties.of().setId(BLOCKS.key(name))));
-        ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().setId(ITEMS.key(name))));
+        ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()
+                .setId(ITEMS.key(name))
+                .useBlockDescriptionPrefix()));
         return block;
     }
 
