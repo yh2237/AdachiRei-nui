@@ -12,6 +12,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AdachireiSplashFetcher {
@@ -22,13 +24,20 @@ public class AdachireiSplashFetcher {
     private static final AtomicReference<CompletableFuture<String>> pendingFetch = new AtomicReference<>(null);
     private static final AtomicReference<String> cachedSplash = new AtomicReference<>(null);
 
-    public static void fetchAsync() {
-        if (cachedSplash.get() != null)
-            return;
+    public static CompletableFuture<String> fetchAsync() {
+        String cached = cachedSplash.get();
+        if (cached != null) {
+            return CompletableFuture.completedFuture(cached);
+        }
+
+        CompletableFuture<String> pending = pendingFetch.get();
+        if (pending != null) {
+            return pending;
+        }
 
         CompletableFuture<String> future = new CompletableFuture<>();
         if (!pendingFetch.compareAndSet(null, future)) {
-            return;
+            return pendingFetch.get();
         }
 
         CompletableFuture.runAsync(() -> {
@@ -62,9 +71,29 @@ public class AdachireiSplashFetcher {
                 future.complete(null);
             }
         });
+
+        return future;
     }
 
     public static String getCachedSplash() {
         return cachedSplash.get();
+    }
+
+    public static String awaitSplash() {
+        String cached = cachedSplash.get();
+        if (cached != null) {
+            return cached;
+        }
+
+        try {
+            return fetchAsync().get(TIMEOUT.toMillis(), TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            LOGGER.warn("Timed out waiting for custom splash");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            LOGGER.warn("Failed to resolve custom splash: {}", e.getMessage());
+        }
+        return null;
     }
 }
