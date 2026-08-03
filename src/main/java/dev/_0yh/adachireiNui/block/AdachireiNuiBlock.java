@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -28,8 +29,8 @@ public class AdachireiNuiBlock extends Block implements EntityBlock {
     private final Map<Direction, VoxelShape> shapes;
     private final boolean renderAsBlockEntity;
 
-    public AdachireiNuiBlock(VoxelShape shape, boolean renderAsBlockEntity) {
-        super(Properties.of()
+    public AdachireiNuiBlock(VoxelShape shape, boolean renderAsBlockEntity, BlockBehaviour.Properties properties) {
+        super(properties
                 .strength(0.5f)
                 .sound(SoundType.WOOL));
 
