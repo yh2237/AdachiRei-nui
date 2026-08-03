@@ -21,6 +21,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -74,9 +75,12 @@ public class AdachireiNui {
         CREATIVE_MODE_TABS.register(modBus);
 
         dev._0yh.adachireiNui.config.AdachireiConfig.init(modContainer);
-
         modBus.addListener(this::commonSetup);
         if (FMLEnvironment.dist == Dist.CLIENT) {
+            modContainer.registerExtensionPoint(
+                    IConfigScreenFactory.class,
+                    (IConfigScreenFactory) (container, parent) ->
+                            new dev._0yh.adachireiNui.client.AdachireiConfigScreen(parent));
             modBus.addListener(this::clientSetup);
         }
     }
