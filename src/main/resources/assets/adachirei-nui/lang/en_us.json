@@ -4,6 +4,10 @@
   "block.adachirei-nui.adachi-nui_new": "Stuffed New Model Rei",
   "block.adachirei-nui.adachi-nui_vocaloid": "Stuffed Adachi Rei V6",
   "block.adachirei-nui.adachirei-nui_box": "Adachi Rei's block",
+  "item.adachirei-nui.adachi-nui": "Stuffed Adachi Rei",
+  "item.adachirei-nui.adachi-nui_new": "Stuffed New Model Rei",
+  "item.adachirei-nui.adachi-nui_vocaloid": "Stuffed Adachi Rei V6",
+  "item.adachirei-nui.adachirei-nui_box": "Adachi Rei's block",
   "text.autoconfig.adachirei-nui.title": "adachirei-nui Config",
   "text.autoconfig.adachirei-nui.option.enableCustomSplash": "Enable Custom Splash Text"
 }
