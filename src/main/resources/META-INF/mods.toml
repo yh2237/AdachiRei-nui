@@ -19,13 +19,13 @@ config="adachirei_nui.mixins.json"
 
 [[dependencies.adachirei_nui]]
     modId="neoforge"
-    mandatory=true
+    type="required"
     versionRange="[20.4,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.adachirei_nui]]
     modId="minecraft"
-    mandatory=true
+    type="required"
     versionRange="[1.20.4]"
     ordering="NONE"
     side="BOTH"
