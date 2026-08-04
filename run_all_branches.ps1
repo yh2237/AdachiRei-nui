@@ -14,7 +14,7 @@ param(
 $ErrorActionPreference = "Stop"
 $repoRoot = $PSScriptRoot
 $branches = @($Versions | ForEach-Object { "$Loader/$_" })
-$outputDir = Join-Path $repoRoot "build-output"
+$outputDir = Join-Path $repoRoot (Join-Path "build-output" $Loader)
 $worktreeDir = Join-Path $env:TEMP ("adachirei-nui-{0}-{1}" -f $Loader, [Guid]::NewGuid().ToString("N"))
 $originalJavaHome = $env:JAVA_HOME
 $originalPath = $env:Path
@@ -149,9 +149,27 @@ try {
         }
 
         if ($Task -eq "build") {
-            Get-ChildItem -Path (Join-Path $worktreeDir "build\libs") -Filter "AdachiRei-nui-*.jar" -ErrorAction SilentlyContinue |
+            $artifact = Get-ChildItem -Path (Join-Path $worktreeDir "build\libs") -Filter "AdachiRei-nui-*.jar" -ErrorAction SilentlyContinue |
                 Where-Object { $_.Name -notmatch "-(sources|dev|shadow)\.jar$" } |
-                Copy-Item -Destination $outputDir -Force
+                Select-Object -First 1
+
+            if (!$artifact) {
+                Write-Host "  BUILD ARTIFACT NOT FOUND" -ForegroundColor Red
+                $failedBranches.Add($branch)
+                continue
+            }
+
+            $modVersionLine = Get-Content -LiteralPath (Join-Path $worktreeDir "gradle.properties") |
+                Where-Object { $_ -match '^mod_version=' } |
+                Select-Object -First 1
+            $modVersion = if ($modVersionLine) { ($modVersionLine -replace '^mod_version=', '').Trim() } else { "unknown" }
+            $releaseVersion = [regex]::Match($modVersion, '\d+\.\d+\.\d+$').Value
+            if ([string]::IsNullOrWhiteSpace($releaseVersion)) {
+                $releaseVersion = $modVersion -replace '[^0-9A-Za-z._-]', '_'
+            }
+            $outputName = "AdachiRei-nui-{0}-mc{1}-v{2}.jar" -f $Loader, $version, $releaseVersion
+            Copy-Item -LiteralPath $artifact.FullName -Destination (Join-Path $outputDir $outputName) -Force
+            Write-Host "  Output: build-output\$Loader\$outputName" -ForegroundColor DarkGreen
         }
 
         Write-Host "  OK" -ForegroundColor Green
