@@ -61,6 +61,24 @@ function Invoke-ModrinthVersionUpload($Group) {
     }
     $loaders = @($loaders | Sort-Object -Unique)
 
+    $dependencies = @()
+    if ($loader -eq "fabric") {
+        $dependencies = @(
+            [ordered]@{
+                project_id = "fabric-api"
+                dependency_type = "required"
+            },
+            [ordered]@{
+                project_id = "cloth-config"
+                dependency_type = "required"
+            },
+            [ordered]@{
+                project_id = "modmenu"
+                dependency_type = "optional"
+            }
+        )
+    }
+
     $data = [ordered]@{
         project_id = $ProjectId
         name = "AdachiRei-nui {0} for Minecraft {1} ({2})" -f $Group[0].ModVersion, $Group[0].MinecraftVersion, $loader
@@ -73,7 +91,7 @@ function Invoke-ModrinthVersionUpload($Group) {
         primary_file = $fileParts[0]
         featured = $false
         changelog = $Changelog
-        dependencies = @()
+        dependencies = $dependencies
     }
     $json = $data | ConvertTo-Json -Compress -Depth 5
 
