@@ -16,6 +16,12 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+try {
+    Add-Type -AssemblyName System.Net.Http -ErrorAction Stop
+} catch {
+    throw "System.Net.Http could not be loaded: $($_.Exception.Message)"
+}
+
 if (!$DryRun -and [string]::IsNullOrWhiteSpace($Token)) {
     throw "MODRINTH_TOKEN is required. Set it as an environment variable or pass -Token."
 }
