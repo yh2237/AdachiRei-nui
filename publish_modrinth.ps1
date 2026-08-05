@@ -49,7 +49,8 @@ if (!$files) {
 }
 
 function Invoke-ModrinthVersionUpload($Group) {
-    $versionNumber = "{0}+mc{1}" -f $Group[0].ModVersion, $Group[0].MinecraftVersion
+    $loader = $Group[0].Loader
+    $versionNumber = "{0}+mc{1}-{2}" -f $Group[0].ModVersion, $Group[0].MinecraftVersion, $loader
     $fileParts = @()
     $loaders = @()
     foreach ($entry in $Group) {
@@ -62,7 +63,7 @@ function Invoke-ModrinthVersionUpload($Group) {
 
     $data = [ordered]@{
         project_id = $ProjectId
-        name = "AdachiRei-nui {0} for Minecraft {1}" -f $Group[0].ModVersion, $Group[0].MinecraftVersion
+        name = "AdachiRei-nui {0} for Minecraft {1} ({2})" -f $Group[0].ModVersion, $Group[0].MinecraftVersion, $loader
         version_number = $versionNumber
         version_type = $VersionType
         status = "listed"
@@ -115,9 +116,9 @@ function Invoke-ModrinthVersionUpload($Group) {
     }
 }
 
-$groups = $files | Group-Object MinecraftVersion, ModVersion | Sort-Object Name
+$groups = $files | Group-Object MinecraftVersion, ModVersion, Loader | Sort-Object Name
 foreach ($group in $groups) {
-    Invoke-ModrinthVersionUpload @($group.Group | Sort-Object Loader)
+    Invoke-ModrinthVersionUpload @($group.Group)
 }
 
 Write-Host "========================================" -ForegroundColor Cyan
