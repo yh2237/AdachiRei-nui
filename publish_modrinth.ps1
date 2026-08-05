@@ -72,6 +72,7 @@ function Invoke-ModrinthVersionUpload($Group) {
         primary_file = $fileParts[0]
         featured = $false
         changelog = $Changelog
+        dependencies = @()
     }
     $json = $data | ConvertTo-Json -Compress -Depth 5
 
