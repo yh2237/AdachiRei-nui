@@ -65,15 +65,15 @@ function Invoke-ModrinthVersionUpload($Group) {
     if ($loader -eq "fabric") {
         $dependencies = @(
             [ordered]@{
-                project_id = "fabric-api"
+                project_id = "P7dR8mSH"
                 dependency_type = "required"
             },
             [ordered]@{
-                project_id = "cloth-config"
+                project_id = "9s6osm5g"
                 dependency_type = "required"
             },
             [ordered]@{
-                project_id = "modmenu"
+                project_id = "mOgUt4GM"
                 dependency_type = "optional"
             }
         )
